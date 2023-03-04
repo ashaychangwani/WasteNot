@@ -38,12 +38,12 @@ class Address:
         # Get the coordinates
         self.coordinates = self.__get_coordinates()
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
-        String representation of Address
-        :return: String representation of Address
+        Serialized JSON representation of Address
+        :return: JSON string
         """
-        return f"{self.street1}{', ' + self.street2 if self.street2 else ''}, {self.city}, {self.state} {self.zip}."
+        return self.serialize()
 
     def __get_coordinates(self) -> tuple[float, float]:
         """
