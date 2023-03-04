@@ -82,6 +82,22 @@ class Address:
         """
         self.__dict__ = json.loads(json_str)
 
+    @staticmethod
+    def load(json_str: str) -> "Address":
+        """
+        Deserialize the address from JSON string
+        :param json_str: Address JSON string
+        :return: Address object
+        """
+        json_dict = json.loads(json_str)
+        return Address(
+            street1=json_dict["street1"],
+            street2=json_dict["street2"],
+            city=json_dict["city"],
+            state=json_dict["state"],
+            zip=json_dict["zip"],
+        )
+
 
 class State(Enum):
     """
