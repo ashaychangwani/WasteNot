@@ -2,6 +2,7 @@
 Address class file
 """
 
+import json
 from dataclasses import dataclass
 from enum import Enum
 
@@ -66,6 +67,20 @@ class Address:
         # Get the coordinates
         coordinates = response.json()["features"][0]["center"]
         return coordinates[1], coordinates[0]
+
+    def serialize(self) -> str:
+        """
+        Serializes the address
+        :return: JSON string
+        """
+        return json.dumps(self.__dict__)
+
+    def deserialize(self, json_str: str) -> None:
+        """
+        Deserializes the address
+        :param json_str: JSON string
+        """
+        self.__dict__ = json.loads(json_str)
 
 
 class State(Enum):
