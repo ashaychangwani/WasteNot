@@ -3,8 +3,11 @@ Address class file
 """
 
 from dataclasses import dataclass
-
 from enum import Enum
+
+import requests
+
+from secrets import MAPBOX_API_KEY
 
 
 @dataclass
@@ -14,7 +17,7 @@ class Address:
     """
 
     street1: str
-    street2: str
+    street2: str | None
     city: str
     state: str
     zip: int
@@ -32,12 +35,37 @@ class Address:
         if not State.isValid(self.state):
             raise ValueError(f"{self.state} is not a valid state.")
 
+        # Get the coordinates
+        self.coordinates = self.__get_coordinates()
+
     def __str__(self):
         """
         String representation of Address
         :return: String representation of Address
         """
         return f"{self.street1}{', ' + self.street2 if self.street2 else ''}, {self.city}, {self.state} {self.zip}."
+
+    def __get_coordinates(self) -> tuple[float, float]:
+        """
+        Get the coordinates of the address
+        :return: Tuple of coordinates (latitude, longitude)
+
+        Uses `https://api.mapbox.com/geocoding/v5/{endpoint}/{search_text}.json` to get the coordinates.
+        """
+        endpoint = "mapbox.places"
+        search_text = f"{self.street1}, {self.city}, {self.state} {self.zip}"
+        url = f"https://api.mapbox.com/geocoding/v5/{endpoint}/{search_text}.json?access_token={MAPBOX_API_KEY}"
+
+        # Make the request
+        response = requests.get(url)
+
+        # Check if the request was successful
+        if response.status_code != 200:
+            raise ValueError(f"Could not get coordinates for {self}.")
+
+        # Get the coordinates
+        coordinates = response.json()["features"][0]["center"]
+        return coordinates[1], coordinates[0]
 
 
 class State(Enum):
