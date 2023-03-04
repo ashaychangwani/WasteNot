@@ -4,6 +4,7 @@ Route Manager class file
 
 import json
 import os
+import urllib.parse
 
 import requests
 
@@ -99,3 +100,27 @@ class RouteManager:
             route_info.append((list(self.stops.keys())[index], list(self.stops.values())[index]))
 
         return route_info
+
+    def get_google_maps_link(self) -> str:
+        """
+        Get the Google Maps link for the route with waypoints
+        :return: Google Maps link
+        """
+        route = self.get_route()
+
+        # Build the url
+        url = "https://www.google.com/maps/dir/"
+
+        # Add the start and destination to include in the route
+        route = [("start", self.start)] + route + [("destination", self.destination)]
+
+        for (_, address) in route:
+            url += f"{urllib.parse.urlencode({'st1': address.street1.replace(' ', '+')}, safe='+')[4:]},"
+            if address.street2:
+                url += f"+{urllib.parse.urlencode({'st2': address.street2.replace(' ', '+')}, safe='+')[4:]},"
+            url += f"+{urllib.parse.urlencode({'cty': address.city.replace(' ', '+')}, safe='+')[4:]},"
+            url += f"+{urllib.parse.urlencode({'stt': address.state})[4:]}"
+            url += f"+{urllib.parse.urlencode({'zip': address.zip})[4:]}"
+            url += "/"
+
+        return url

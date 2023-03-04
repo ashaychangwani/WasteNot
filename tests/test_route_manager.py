@@ -30,3 +30,4 @@ if __name__ == "__main__":
 
     # Calculate the route
     print(route_manager.get_route())
+    print(route_manager.get_google_maps_link())
