@@ -7,6 +7,7 @@ Here are the attributes that you need to extract:
 Type of food:
 Weight:
 Address:
+Phone Number:
 
 Ask questions to ensure that the food can be donated to a food bank.
 
@@ -21,7 +22,8 @@ Street Address: valStreet
 Apartment: valApt
 City: valCity
 State: valState
-Zip: valZip". 
+Zip: valZip
+Phone Number: valPhone". 
 
 If you are sure the food cannot be donated to a food bank, tell the user that the food cannot be donated to a food bank.
 
@@ -36,6 +38,8 @@ SampleQ: Fantastic! What is the location you’d like the soup to be picked up f
 A: 1500 Stony Brook Rd in Stony Brook in NY 11790
 SampleQ: Is there an apartment number?
 A: Yes, 3A
+SampleQ: Okay! What is your phone number?
+A: It's 5519995873
 SampleQ: I have got all the information I need
 
 Type of food: canned soup
@@ -44,7 +48,8 @@ Street Address: 1500 Stony Brook Rd
 Apartment: 3A
 City: Stony Brook
 State: New York
-Zip: 11790"
+Zip: 11790
+Phone Number: 5519995873"
 
 
 Example:

@@ -60,11 +60,12 @@ class ChatBot:
             city = variables.get('City', 'N/A')
             state = variables.get('State', 'N/A')
             zip_code = variables.get('Zip', 'N/A')
-            na_count = sum(value == 'N/A' for value in [type_of_food, weight, street, apt, city, state, zip_code])
+            phone = variables.get('Phone Number', 'N/A')
+            na_count = sum(value == 'N/A' for value in [type_of_food, weight, street, apt, city, state, zip_code, phone])
             if na_count < 3:
-                self.addLocationToDB(type_of_food, weight, street, apt, city, state, zip_code)
+                self.addLocationToDB(type_of_food, weight, street, apt, city, state, zip_code, phone)
         
-    def addLocationToDB(self, type_of_food, weight, street, apt, city, state, zip_code):
+    def addLocationToDB(self, type_of_food, weight, street, apt, city, state, zip_code, phone):
         # TODO: add to database
         print('Type of Food:', type_of_food)
         print('Weight:', weight)
@@ -73,6 +74,7 @@ class ChatBot:
         print('City:', city)
         print('State:', state)
         print('Zip:', zip_code)
+        print('Phone:', phone)
         
 if __name__ == "__main__":
     bot = ChatBot()
