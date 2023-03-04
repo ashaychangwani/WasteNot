@@ -2,7 +2,7 @@
 User class file
 """
 
-from address import Address
+from .address import Address
 
 
 class User:
