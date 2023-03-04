@@ -6,7 +6,7 @@ import os
 
 import requests
 
-from models import Address
+from .models import Address
 
 
 class RouteManager:
