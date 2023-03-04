@@ -63,12 +63,7 @@ class RoutePlanner:
         profile = "mapbox/driving-traffic"
 
         # Build the coordinates string
-        coords = f"{self.start.coordinates[1]},{self.start.coordinates[0]};"
-        # Add the coordinates of the stops
-        for stop in self.stops.values():
-            coords += f"{stop.coordinates[1]},{stop.coordinates[0]};"
-        # Add the destination coordinates
-        coords += f"{self.destination.coordinates[1]},{self.destination.coordinates[0]}"
+        coords = self.build_coordinates_string(self.start, self.stops, self.destination)
 
         # Build the url
         url = (
@@ -126,3 +121,30 @@ class RoutePlanner:
             url += "/"
 
         return url
+
+    @staticmethod
+    def build_coordinates_string(
+            start: Address | None,
+            stops: dict[str, Address],
+            destination: Address | None
+    ) -> str:
+        """
+        Build the coordinates string for the route
+        :param start: Starting address
+        :param stops: List of stops to make
+        :param destination: Destination address
+        :return: Coordinates string
+        """
+
+        coords = ""
+
+        if start:
+            coords += f"{start.coordinates[1]},{start.coordinates[0]};"
+
+        for _, stop in stops.items():
+            coords += f"{stop.coordinates[1]},{stop.coordinates[0]};"
+
+        if destination:
+            coords += f"{destination.coordinates[1]},{destination.coordinates[0]}"
+
+        return coords
