@@ -2,10 +2,11 @@
 Route Manager class file
 """
 
+import os
+
 import requests
 
 from models import Address
-from secrets import MAPBOX_API_KEY
 
 
 class RouteManager:
@@ -32,6 +33,8 @@ class RouteManager:
 
         Uses `https://api.mapbox.com/optimized-trips/v1/{profile}/{coordinates}` api to calculate the route.
         """
+        MAPBOX_API_KEY = os.getenv("MAPBOX_API_KEY")
+
         profile = "mapbox/driving-traffic"
 
         # Build the coordinates string
@@ -91,7 +94,11 @@ if __name__ == "__main__":
         __stops[name] = address
 
     # Create a route manager
-    __route_manager = RouteManager(__landmarks[list(__landmarks.keys())[0]], __landmarks[list(__landmarks.keys())[-1]], __stops)
+    __route_manager = RouteManager(
+        __landmarks[list(__landmarks.keys())[0]],
+        __landmarks[list(__landmarks.keys())[-1]],
+        __stops
+    )
 
     # Calculate the route
     print(__route_manager.get_route())

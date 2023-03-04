@@ -3,12 +3,11 @@ Address class file
 """
 
 import json
+import os
 from dataclasses import dataclass
 from enum import Enum
 
 import requests
-
-from secrets import MAPBOX_API_KEY
 
 
 @dataclass
@@ -53,6 +52,8 @@ class Address:
 
         Uses `https://api.mapbox.com/geocoding/v5/{endpoint}/{search_text}.json` to get the coordinates.
         """
+        MAPBOX_API_KEY = os.getenv("MAPBOX_API_KEY")
+
         endpoint = "mapbox.places"
         search_text = f"{self.street1}, {self.city}, {self.state} {self.zip}"
         url = f"https://api.mapbox.com/geocoding/v5/{endpoint}/{search_text}.json?access_token={MAPBOX_API_KEY}"
