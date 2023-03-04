@@ -2,6 +2,7 @@
 Route Manager class file
 """
 
+import json
 import os
 
 import requests
@@ -25,6 +26,29 @@ class RouteManager:
         self.start: Address = start
         self.destination: Address = destination
         self.stops: dict[str, Address] = stops
+
+    @staticmethod
+    def load(json_str: str) -> "RouteManager":
+        """
+        Deserialize the route manager from JSON string
+        :param json_str: Route Manager JSON string
+        :return: Route Manager object
+        """
+        address_dict = json.loads(json_str)
+
+        # Get address names
+        address_names = [name for name in address_dict]
+
+        # Get the start address
+        start = Address.load(address_dict[address_names[0]])
+        destination = Address.load(address_dict[address_names[-1]])
+
+        # Get the stops
+        stops = {}
+        for stop in address_names[1:-1]:
+            stops[stop] = Address.load(address_dict[stop])
+
+        return RouteManager(start, destination, stops)
 
     def get_route(self) -> list[(str, Address)]:
         """
