@@ -7,7 +7,7 @@ from wastenot.models import Address
 
 if __name__ == "__main__":
     landmarks = {
-        "Central Park": Address("Central Park", None, "New York", "NY", 10024),
+        "Central Park Zoo": Address("Central Park Zoo", None, "New York", "NY", 10024),
         "Empire State Building": Address("350 5th Ave", None, "New York", "NY", 10118),
         "Times Square": Address("Times Square", None, "New York", "NY", 10036),
         "Rockefeller Center": Address("Rockefeller Center", None, "New York", "NY", 10111),
