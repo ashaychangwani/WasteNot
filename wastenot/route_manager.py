@@ -75,30 +75,3 @@ class RouteManager:
             route_info.append((list(self.stops.keys())[index], list(self.stops.values())[index]))
 
         return route_info
-
-
-if __name__ == "__main__":
-    __landmarks = {
-        "Empire State Building": Address("350 5th Ave", None, "New York", "NY", 10118),
-        "Central Park": Address("Central Park", None, "New York", "NY", 10024),
-        "Times Square": Address("Times Square", None, "New York", "NY", 10036),
-        "Brooklyn Bridge": Address("Brooklyn Bridge", None, "New York", "NY", 11201),
-        "Rockefeller Center": Address("Rockefeller Center", None, "New York", "NY", 10111),
-        "Grand Central Terminal": Address("Grand Central Terminal", None, "New York", "NY", 10017),
-        "Metropolitan Museum of Art": Address("1000 5th Ave", None, "New York", "NY", 10028),
-    }
-
-    # Build the stops dictionary
-    __stops = {}
-    for name, address in list(__landmarks.items())[1:-1]:
-        __stops[name] = address
-
-    # Create a route manager
-    __route_manager = RouteManager(
-        __landmarks[list(__landmarks.keys())[0]],
-        __landmarks[list(__landmarks.keys())[-1]],
-        __stops
-    )
-
-    # Calculate the route
-    print(__route_manager.get_route())
