@@ -51,6 +51,41 @@ class RoutePlanner:
 
         return RoutePlanner(start, destination, stops)
 
+    def get_stops(self) -> dict[str, Address]:
+        """
+        Get the stops to make
+        :return: Dictionary of stops
+
+        Uses `https://api.mapbox.com/directions-matrix/v1/{profile}/{coordinates}` api to calculate the route.
+        """
+        MAPBOX_API_KEY = os.getenv("MAPBOX_API_KEY")
+
+        profile = "mapbox/driving-traffic"
+
+        # Build the coordinates string
+        coords = self.build_coordinates_string(self.start, self.stops, self.destination)
+
+        # Build the url
+        url = (
+            f"https://api.mapbox.com/directions-matrix/v1/{profile}/{coords}?"
+            f"sources=all&"
+            f"destinations=all&"
+            f"access_token={MAPBOX_API_KEY}"
+        )
+
+        # Make the request and get the json response
+        response = requests.get(url).json()
+
+        # Handle code
+        if response["code"] != "Ok":
+            raise ValueError(f"Could not get route matrix. Error: {response['message']}")
+
+        # Get the durations
+        durations = response["durations"]
+        # TODO: implement logic to get the stops
+
+        return self.stops
+
     def get_route(self) -> list[(str, Address)]:
         """
         Get the optimal route the driver should take
