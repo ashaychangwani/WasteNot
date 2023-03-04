@@ -104,6 +104,7 @@ class State(Enum):
     """
     Supported States
     """
+
     NY = "New York"
 
     def __str__(self) -> str:

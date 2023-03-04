@@ -63,31 +63,31 @@ class RouteManager:
         profile = "mapbox/driving-traffic"
 
         # Build the coordinates string
-        coordinates = f"{self.start.coordinates[1]},{self.start.coordinates[0]};"
+        coords = f"{self.start.coordinates[1]},{self.start.coordinates[0]};"
         # Add the coordinates of the stops
         for stop in self.stops.values():
-            coordinates += f"{stop.coordinates[1]},{stop.coordinates[0]};"
+            coords += f"{stop.coordinates[1]},{stop.coordinates[0]};"
         # Add the destination coordinates
-        coordinates += f"{self.destination.coordinates[1]},{self.destination.coordinates[0]}"
+        coords += f"{self.destination.coordinates[1]},{self.destination.coordinates[0]}"
 
         # Build the url
-        url = f"https://api.mapbox.com/optimized-trips/v1/{profile}/{coordinates}?" \
-              f"source=first&" \
-              f"destination=last&" \
-              f"roundtrip=true&" \
-              f"access_token={MAPBOX_API_KEY}"
+        url = (
+            f"https://api.mapbox.com/optimized-trips/v1/{profile}/{coords}?"
+            f"source=first&"
+            f"destination=last&"
+            f"roundtrip=true&"
+            f"access_token={MAPBOX_API_KEY}"
+        )
 
-        # Make the request
-        response = requests.get(url)
-        # Get the json
-        json = response.json()
+        # Make the request and get the json response
+        response = requests.get(url).json()
 
         # Handle code
-        if json["code"] != "Ok":
-            raise ValueError(f"Could not calculate route. Error: {json['message']}")
+        if response["code"] != "Ok":
+            raise ValueError(f"Could not calculate route. Error: {response['message']}")
 
         # Get the waypoints
-        waypoints = json["waypoints"]
+        waypoints = response["waypoints"]
 
         # Get the waypoint_indices
         waypoint_indices = [wp["waypoint_index"] for wp in waypoints]
@@ -95,9 +95,11 @@ class RouteManager:
         # Get the route info by matching the indices to the stops
         # Ignore the first and last indices as they are the start and destination
         route_info = []
-        for index in waypoint_indices[1:-1]:
-            index -= 1
-            route_info.append((list(self.stops.keys())[index], list(self.stops.values())[index]))
+        for wp_i in waypoint_indices[1:-1]:
+            wp_i -= 1
+            route_info.append(
+                (list(self.stops.keys())[wp_i], list(self.stops.values())[wp_i])
+            )
 
         return route_info
 
@@ -114,7 +116,7 @@ class RouteManager:
         # Add the start and destination to include in the route
         route = [("start", self.start)] + route + [("destination", self.destination)]
 
-        for (_, address) in route:
+        for _, address in route:
             url += f"{urllib.parse.urlencode({'st1': address.street1.replace(' ', '+')}, safe='+')[4:]},"
             if address.street2:
                 url += f"+{urllib.parse.urlencode({'st2': address.street2.replace(' ', '+')}, safe='+')[4:]},"

@@ -33,13 +33,11 @@ def navigate() -> json:
     route = route_manager.get_route()
 
     # Create response object
-    response = {
-        "route": route
-    }
+    response = {"route": route}
 
     # Return JSON response
     return jsonify(response)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

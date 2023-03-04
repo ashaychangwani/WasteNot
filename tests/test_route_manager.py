@@ -25,7 +25,7 @@ if __name__ == "__main__":
     route_manager = RouteManager(
         landmarks[list(landmarks.keys())[0]],
         landmarks[list(landmarks.keys())[-1]],
-        stops
+        stops,
     )
 
     # Calculate the route
