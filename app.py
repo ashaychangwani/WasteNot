@@ -6,8 +6,10 @@ import json
 
 from flask import Flask, jsonify, request
 
-from wastenot import RoutePlanner
+from wastenot import RoutePlanner, Store
+from wastenot.models import Address
 
+store = Store()
 app = Flask(__name__)
 
 
@@ -18,6 +20,34 @@ def echo() -> json:
     :return: JSON response
     """
     return jsonify({"data": request.data.decode("utf-8")})
+
+
+@app.route("/pickup", methods=["POST"])
+def pickup() -> json:
+    """
+    Place an order to pick up at the address
+    :return: True if successful
+    """
+    try:
+        # Read the address details from the request
+        data = json.loads(request.data.decode("utf-8"))
+
+        # Validate format {<name string>: <serialized address object>}
+        if len(data) != 1:
+            raise ValueError("Invalid format.")
+
+        # Get the name and address
+        name = list(data.keys())[0]
+        address = Address.load(data[name])
+
+        # Add the address to the store
+        store.add_pickup_location(name, address)
+    except Exception as e:
+        # Return error response
+        return jsonify({"success": False, "error": str(e)})
+
+    # Return JSON response
+    return jsonify({"success": True})
 
 
 @app.route("/navigate", methods=["POST"])
