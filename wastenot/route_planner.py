@@ -75,7 +75,7 @@ class RoutePlanner:
             f"https://api.mapbox.com/optimized-trips/v1/{profile}/{coords}?"
             f"source=first&"
             f"destination=last&"
-            f"roundtrip=true&"
+            f"roundtrip=false&"
             f"access_token={MAPBOX_API_KEY}"
         )
 
