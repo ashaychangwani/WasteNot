@@ -2,4 +2,4 @@
 wastenot package
 """
 
-from .route_manager import RouteManager
+from .route_planner import RoutePlanner

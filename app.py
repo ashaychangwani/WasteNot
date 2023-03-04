@@ -6,7 +6,7 @@ import json
 
 from flask import Flask, jsonify, request
 
-from wastenot import RouteManager
+from wastenot import RoutePlanner
 
 app = Flask(__name__)
 
@@ -26,11 +26,11 @@ def navigate() -> json:
     Navigates the driver to the destination
     :return: JSON response
     """
-    # Create route manager using address data from request
-    route_manager = RouteManager.load(request.data.decode("utf-8"))
+    # Create route planner using address data from request
+    route_planner = RoutePlanner.load(request.data.decode("utf-8"))
 
     # Get optimal route
-    route = route_manager.get_route()
+    route = route_planner.get_route()
 
     # Create response object
     response = {"route": route}

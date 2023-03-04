@@ -1,8 +1,8 @@
 """
-Test RouteManager
+Test RoutePlanner
 """
 
-from wastenot import RouteManager
+from wastenot import RoutePlanner
 from wastenot.models import Address
 
 if __name__ == "__main__":
@@ -21,13 +21,13 @@ if __name__ == "__main__":
     for name, address in list(landmarks.items())[1:-1]:
         stops[name] = address
 
-    # Create a route manager
-    route_manager = RouteManager(
+    # Create a route planner
+    route_planner = RoutePlanner(
         landmarks[list(landmarks.keys())[0]],
         landmarks[list(landmarks.keys())[-1]],
         stops,
     )
 
     # Calculate the route
-    print(route_manager.get_route())
-    print(route_manager.get_google_maps_link())
+    print(route_planner.get_route())
+    print(route_planner.get_google_maps_link())

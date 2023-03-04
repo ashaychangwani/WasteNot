@@ -1,5 +1,5 @@
 """
-Route Manager class file
+Route Planner class file
 """
 
 import json
@@ -11,9 +11,9 @@ import requests
 from .models import Address
 
 
-class RouteManager:
+class RoutePlanner:
     """
-    Route Manager
+    Route Planner
     """
 
     def __init__(self, start: Address, destination: Address, stops: dict[str, Address]):
@@ -29,11 +29,11 @@ class RouteManager:
         self.stops: dict[str, Address] = stops
 
     @staticmethod
-    def load(json_str: str) -> "RouteManager":
+    def load(json_str: str) -> "RoutePlanner":
         """
-        Deserialize the route manager from JSON string
-        :param json_str: Route Manager JSON string
-        :return: Route Manager object
+        Deserialize the route planner from JSON string
+        :param json_str: RoutePlanner JSON string
+        :return: RoutePlanner object
         """
         address_dict = json.loads(json_str)
 
@@ -49,7 +49,7 @@ class RouteManager:
         for stop in address_names[1:-1]:
             stops[stop] = Address.load(address_dict[stop])
 
-        return RouteManager(start, destination, stops)
+        return RoutePlanner(start, destination, stops)
 
     def get_route(self) -> list[(str, Address)]:
         """
