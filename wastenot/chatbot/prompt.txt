@@ -52,7 +52,7 @@ A: It's 5519995873
 SampleQ: I have got all the information I need
 
 Type of food: canned soup
-Weight: 3lbs
+Weight: 3
 Street Address: 1500 Stony Brook Rd
 Apartment: 3A
 City: Stony Brook
