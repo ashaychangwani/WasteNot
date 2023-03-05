@@ -28,25 +28,24 @@ def echo() -> json:
 @app.route("/chat", methods=["POST"])
 def chat() -> json:
     """
-    Echoes the requst body back to the client
+    Echoes the request body back to the client
     :return: JSON response
     """
     try:
         data = request.json
         if len(data) != 2:
             raise ValueError("Invalid format.")
-        id = data["id"]
-        if id not in chats:
-            chats[id] = ChatBot()
+        data_id = data["id"]
+        if data_id not in chats:
+            chats[data_id] = ChatBot()
         query = data["query"]
         print("query is ", query)
-        response = chats[id].get_response(query)
+        response = chats[data_id].get_response(query)
         return jsonify({"success": True, "prompt": str(response)})
     except Exception as e:
         # Return error response
         print(e)
         return jsonify({"success": False, "error": str(e)})
-    return jsonify({"data": request.data.decode("utf-8")})
 
 
 @app.route("/pickup", methods=["POST"])
