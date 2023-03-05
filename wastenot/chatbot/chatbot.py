@@ -27,7 +27,7 @@ class ChatBot:
             "please let me know details about the food you'd like to donate!"
         )
 
-        with open("prompt.txt", "r") as file:
+        with open("wastenot/chatbot/prompt.txt", "r") as file:
             self.base_prompt = file.read()
 
     def build_prompt(self) -> str:
