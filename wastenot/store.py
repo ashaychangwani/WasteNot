@@ -6,7 +6,6 @@ What needs to be stored?
 - Pickup locations
 """
 
-import json
 from pathlib import Path
 
 import pandas as pd
@@ -69,7 +68,9 @@ class Store:
 
         # Add pickup locations to the dictionary
         for _, row in self.pickup_locations_df.iterrows():
-            self.add_pickup_location(row["name"], row["address"], row["weight"], save=False)
+            self.add_pickup_location(
+                row["name"], row["address"], row["weight"], save=False
+            )
 
         return self.pickup_locations
 
@@ -114,7 +115,7 @@ class Store:
         return self.food_banks
 
     def add_pickup_location(
-        self, name: str, address: Address,weight: float = 0, save: bool = True
+        self, name: str, address: Address, weight: float = 0, save: bool = True
     ) -> dict[str, Address]:
         """
         Add a pickup location to the store
@@ -127,6 +128,20 @@ class Store:
         Note: If the pickup location already exists, it will be overwritten.
         """
         self.pickup_locations[name] = address
+
+        # Add the weight to the dataframe
+        self.pickup_locations_df.append(
+            {
+                "name": name,
+                "street1": address.street1,
+                "street2": address.street2,
+                "city": address.city,
+                "state": address.state,
+                "zip": address.zip,
+                "weight": weight,
+            },
+            ignore_index=True,
+        )
 
         if save:
             # Add the pickup location to the end of the file
@@ -149,7 +164,7 @@ class Store:
         if name in self.food_banks:
             del self.food_banks[name]
 
-        # Remove the food bank from the CSV file
+        # Remove the food bank from the dataframe
         self.food_banks_df = self.food_banks_df[self.food_banks_df["name"] != name]
 
         # Iterate through the file and delete the line
@@ -173,7 +188,7 @@ class Store:
         if name in self.pickup_locations:
             del self.pickup_locations[name]
 
-        # Remove the pickup location from the CSV file
+        # Remove the pickup location from the dataframe
         self.pickup_locations_df = self.pickup_locations_df[
             self.pickup_locations_df["name"] != name
         ]
