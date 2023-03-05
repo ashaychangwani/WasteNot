@@ -25,6 +25,8 @@ class ChatBot:
     success_string = "all the information I need"
     chats = []
 
+    store = Store()
+
     def __init__(self):
         self.chats = []
         self.chats.append(
@@ -152,7 +154,7 @@ class ChatBot:
         except Exception as _:
             zip_code = 0
 
-        Store().add_pickup_location(
+        ChatBot.store.add_pickup_location(
             phone, Address(street1, street2, city, state, zip_code)
         )
 
