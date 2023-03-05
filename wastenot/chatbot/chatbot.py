@@ -70,15 +70,19 @@ class ChatBot:
             stop=["A:"],
         )
         response = response.choices[0].text.strip()
-        self.check_if_completed(response)
+        complete = self.check_if_completed(response)
+
+        if complete:
+            response = "Thank you for your donation! we'll let you know when we're ready to pick it up!"
+
         self.chats.append(response)
         return response
 
-    def check_if_completed(self, response):
+    def check_if_completed(self, response) -> bool:
         """
         Check if the response contains the success string
         :param response: Response string
-        :return: None
+        :return: True if the conversation is complete
         """
         if self.success_string in response:
             pattern = r"([A-Za-z ]+): ([A-Za-z0-9# ]+)"
@@ -109,9 +113,12 @@ class ChatBot:
                 ]
             )
             if na_count < 3:
+                print(response)
                 self.add_pickup_location(
                     type_of_food, weight, street, apt, city, state, zip_code, phone
                 )
+                return True
+        return False
 
     @staticmethod
     def add_pickup_location(
