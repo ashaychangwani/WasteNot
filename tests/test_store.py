@@ -3,6 +3,7 @@ Test Store
 """
 
 from wastenot import Store
+from wastenot.models import Address
 
 if __name__ == "__main__":
     print(Store.FOOD_BANKS_CSV)
@@ -14,7 +15,7 @@ if __name__ == "__main__":
     # Test add and remove food bank
     store = Store()
     store.add_food_bank(
-        "Test Food Bank", "123 Test Food Bank, Test City, Test State 12345"
+        "Test Food Bank", Address("123 Test Food Bank", None, "Test City", "NY", 12345), save=True
     )
     print(store.get_food_bank("Test Food Bank"))
     store.remove_food_bank("Test Food Bank")
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     # Test add and remove pickup location
     store = Store()
     store.add_pickup_location(
-        "Test Pickup Location", "123 Test Pickup, Test City, Test State 12345"
+        "Test Pickup Location", Address("123 Test Pickup", None, "Test City", "NJ", 12345), save=True
     )
     print(store.get_pickup_location("Test Pickup Location"))
     store.remove_pickup_location("Test Pickup Location")
@@ -33,10 +34,10 @@ if __name__ == "__main__":
     print("\n\nCheck persistence")
     store = Store()
     store.add_food_bank(
-        "Test Food Bank", "123 Test Food Bank, Test City, Test State 12345"
+        "Test Food Bank", Address("123 Test Food Bank", None, "Test City", "NY", 12345)
     )
     store.add_pickup_location(
-        "Test Pickup Location", "123 Test Pickup, Test City, Test State 12345"
+        "Test Pickup Location", Address("123 Test Pickup", None, "Test City", "NJ", 12345)
     )
     store = Store()
     print(store.get_food_bank("Test Food Bank"))
