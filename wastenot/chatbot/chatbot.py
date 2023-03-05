@@ -73,7 +73,11 @@ class ChatBot:
         complete = self.check_if_completed(response)
 
         if complete:
-            response = "Thank you for your donation! we'll let you know when we're ready to pick it up!"
+            self.chats = []
+            response = (
+                "Thank you for your donation! we'll let you know when we're ready to pick it up! "
+                "Is there anything else you'd like to donate today?"
+            )
 
         self.chats.append(response)
         return response
@@ -112,8 +116,8 @@ class ChatBot:
                     phone,
                 ]
             )
+
             if na_count < 3:
-                print(response)
                 self.add_pickup_location(
                     type_of_food, weight, street, apt, city, state, zip_code, phone
                 )
