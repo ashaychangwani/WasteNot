@@ -38,9 +38,13 @@ def chat() -> json:
         data_id = data["id"]
         if data_id not in chats:
             chats[data_id] = ChatBot()
+
         query = data["query"]
         print("query is ", query)
+
         response = chats[data_id].get_response(query)
+        print("response is ", response)
+
         return jsonify({"success": True, "prompt": str(response)})
     except Exception as e:
         # Return error response
@@ -96,4 +100,4 @@ def navigate() -> json:
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001, host="0.0.0.0")
+    app.run(debug=True, port=8123, host="0.0.0.0")
