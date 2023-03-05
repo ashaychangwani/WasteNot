@@ -85,7 +85,7 @@ def order_pickup() -> json:
 def driver_pickup() -> json:
     """
     Driver accepts to pick up at a list of addresses
-    :return: True if successful
+    :return: JSON response
 
     Request body format
     -------------------
@@ -132,6 +132,47 @@ def driver_pickup() -> json:
 
     # Return JSON response
     return jsonify({"success": True})
+
+
+@app.route("/driver-query", methods=["POST"])
+def driver_query() -> json:
+    """
+    Check how many stops can be made in a given time frame
+    :return: JSON response
+
+    Request body format
+    -------------------
+    {
+        destination: <serialized address object>,
+        time: <time available in minutes>
+    }
+    """
+
+    data = json.loads(request.data.decode("utf-8"))
+
+    destination = store.get_food_bank(data["destination"])
+    time = data["time"]
+
+    # Get the pickup locations addresses
+    pickup_locations = {}
+    for name, address in store.pickup_locations.items():
+        pickup_locations[name] = address
+
+    # Fix the start location to CEWIT
+    start = Address("1500 Stony Brook Rd", "", "Stony Brook", "NY", 11790)
+
+    route_planner = RoutePlanner(start, destination, pickup_locations)
+
+    # Get the stops
+    addresses = route_planner.get_stops(time)
+
+    # Compare the number of stops to the database
+    for name, address in addresses:
+        if name not in store.pickup_locations:
+            addresses.remove((name, address))
+
+    # Return JSON response
+    return jsonify({"stops": addresses})
 
 
 @app.route("/navigate", methods=["POST"])
