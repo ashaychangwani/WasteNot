@@ -142,13 +142,13 @@ class ChatBot:
             zip_code = 0
 
         Store().add_pickup_location(
-            str(phone), Address(street1, street2, city, state, zip_code)
+            phone, Address(street1, street2, city, state, zip_code)
         )
 
         MessagingBot().send_message(
-            str(phone),
             f"Thank you for your donation and saving {weight} pounds of food! "
             f"We will be in touch with you shortly to schedule a pickup.",
+            phone,
         )
 
         print("Type of Food:", type_of_food)
