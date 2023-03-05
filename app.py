@@ -106,8 +106,8 @@ def driver_pickup() -> json:
     for name, address in store.pickup_locations.items():
         pickup_locations[name] = address
 
-    # Fix the start location to CEWIT
-    start = Address("1500 Stony Brook Rd", "", "Stony Brook", "NY", 11790)
+    # Fix the start location to Lincoln Medical Center
+    start = Address("234 E 149th St", "", "The Bronx", "NY", 10451)
 
     route_planner = RoutePlanner(start, destination, pickup_locations)
 
@@ -158,8 +158,8 @@ def driver_query() -> json:
     for name, address in store.pickup_locations.items():
         pickup_locations[name] = address
 
-    # Fix the start location to CEWIT
-    start = Address("1500 Stony Brook Rd", "", "Stony Brook", "NY", 11790)
+    # Fix the start location to Lincoln Medical Center
+    start = Address("234 E 149th St", "", "The Bronx", "NY", 10451)
 
     route_planner = RoutePlanner(start, destination, pickup_locations)
 
