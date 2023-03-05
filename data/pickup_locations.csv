@@ -1,39 +1,7 @@
 name,street1,street2,city,state,zip,latitude,longitude
 John S,123 Main St,,New York,NY,10001,40.750568,-73.994086
 Emily K,456 7th Ave,,Brooklyn,NY,11215,40.663527,-73.983057
+Rachel D,432 2nd Ave,,Long Island City,NY,11101,40.748017,-73.956584
 James H,234 5th Ave,,New York,NY,10001,40.743001,-73.989572
 Sarah P,567 8th St,,Brooklyn,NY,11215,40.666911,-73.979977
 Michael C,890 Broadway,,New York,NY,10003,40.738237,-73.989791
-Rachel D,432 2nd Ave,,Long Island City,NY,11101,40.748017,-73.956584
-Mark S,987 Lexington Ave,,New York,NY,10021,40.771736,-73.960437
-Nancy T,654 Broadway,,New York,NY,10012,40.727906,-73.995269
-Daniel G,321 Park Ave,,New York,NY,10022,40.758367,-73.974576
-Laura F,543 5th Ave,,Brooklyn,NY,11215,40.664537,-73.989248
-Brian K,789 9th Ave,,New York,NY,10019,40.763217,-73.988414
-Michelle L,456 Madison Ave,,New York,NY,10022,40.758666,-73.974164
-Jessica N,987 4th Ave,,Brooklyn,NY,11215,40.664410,-73.982263
-Ryan O,321 8th St,,Brooklyn,NY,11215,40.669010,-73.982425
-William Q,432 6th Ave,,Long Island City,NY,11101,40.748807,-73.954954
-Samantha R,789 5th Ave,,New York,NY,10022,40.762181,-73.974390
-David S,123 Lexington Ave,,New York,NY,10016,40.742041,-73.982190
-Emma T,456 Broadway,,New York,NY,10013,40.720486,-73.998295
-Rachel V,321 9th St,,Brooklyn,NY,11215,40.668290,-73.982756
-Alex W,876 Madison Ave,,New York,NY,10021,40.770652,-73.966901
-Sarah X,543 2nd Ave,,New York,NY,10016,40.744201,-73.978634
-Jessica Z,654 4th Ave,,Brooklyn,NY,11215,40.664410,-73.982263
-Brian A,321 5th St,,Brooklyn,NY,11215,40.666911,-73.979977
-Michelle B,876 6th Ave,,New York,NY,10022,40.762181,-73.974390
-Anthony C,543 8th St,,Brooklyn,NY,11215,40.669010,-73.982425
-Ashley D,987 9th Ave,,New York,NY,10019,40.763217,-73.988414
-Ryan E,123 2nd Ave,,New York,NY,10016,40.744201,-73.978634
-William G,789 4th Ave,,Brooklyn,NY,11215,40.664410,-73.982263
-David H,321 7th St,,Brooklyn,NY,11215,40.668290,-73.982756
-Emma I,876 9th Ave,,New York,NY,10019,40.763217,-73.988414
-Rachel K,987 6th Ave,,New York,NY,10022,40.762181,-73.974390
-Alex L,654 5th St,,Brooklyn,NY,11215,40.666911,-73.979977
-Sarah M,123 8th Ave,,New York,NY,10019,40.763217,-73.988414
-Jessica O,789 2nd Ave,,New York,NY,10016,40.744201,-73.978634
-Brian P,321 3rd Ave,,Brooklyn,NY,11215,40.664410,-73.982263
-Anthony R,543 6th Ave,,New York,NY,10022,40.762181,-73.974390
-Ashley S,987 7th St,,Brooklyn,NY,11215,40.668290,-73.982756
-Ryan T,654 9th Ave,,New York,NY,10019,40.763217,-73.988414
