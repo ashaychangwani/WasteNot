@@ -83,15 +83,16 @@ def order_pickup() -> json:
         data = json.loads(request.data.decode("utf-8"))
 
         # Validate format {<name string>: <serialized address object>}
-        if len(data) != 1:
+        if len(data) != 2:
             raise ValueError("Invalid format.")
 
         # Get the name and address
         name = list(data.keys())[0]
         address = Address.load(data[name])
+        weight = float(data["weight"])
 
         # Add the address to the store
-        store.add_pickup_location(name, address)
+        store.add_pickup_location(name, address, weight)
     except Exception as e:
         # Return error response
         return jsonify({"success": False, "error": str(e)})
