@@ -224,7 +224,7 @@ class RoutePlanner:
         url = "https://www.google.com/maps/dir/"
 
         # Add the start and destination to include in the route
-        if stops != []:
+        if stops:
             route = (
                 [("start", self.start)] + stops + [("destination", self.destination)]
             )
@@ -239,6 +239,13 @@ class RoutePlanner:
             url += f"+{urllib.parse.urlencode({'stt': address.state})[4:]}"
             url += f"+{urllib.parse.urlencode({'zip': address.zip})[4:]}"
             url += "/"
+
+        # Shorten the url
+        s_url = requests.get(
+            f"https://www.google.com/maps/rpc/shorturl?authuser=0&hl=en&gl=us&pb=!1s{url}"
+        ).content
+        # Get the url encloses between double quotes
+        url = s_url[s_url.find(b'"') + 1 : s_url.rfind(b'"')].decode("utf-8")
 
         return url
 
