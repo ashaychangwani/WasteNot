@@ -26,6 +26,10 @@ class Address:
         """
         Post init method to validate the inputs
         """
+        # Set street2 to "" if it is None
+        if self.street2 is None:
+            self.street2 = ""
+
         # Check if the inputs are valid
         for field in ["street1", "city", "state", "zip"]:
             if not getattr(self, field):
