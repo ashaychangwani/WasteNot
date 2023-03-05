@@ -29,6 +29,7 @@ class Store:
 
     food_banks: dict[str, Address] = {}
     pickup_locations: dict[str, Address] = {}
+    pickup_weights: dict[str, float] = {}
 
     def __init__(self):
         if self.food_banks == {}:
@@ -68,7 +69,7 @@ class Store:
 
         # Add pickup locations to the dictionary
         for _, row in self.pickup_locations_df.iterrows():
-            self.add_pickup_location(row["name"], row["address"], save=False)
+            self.add_pickup_location(row["name"], row["address"], row["weight"], save=False)
 
         return self.pickup_locations
 
@@ -113,12 +114,13 @@ class Store:
         return self.food_banks
 
     def add_pickup_location(
-        self, name: str, address: Address, save: bool = True
+        self, name: str, address: Address,weight: float = 0, save: bool = True
     ) -> dict[str, Address]:
         """
         Add a pickup location to the store
         :param name: Pickup location name
         :param address: Pickup location address
+        :param weight: Weight of the pickup location
         :param save: Save the pickup location to the CSV file
         :return: Dictionary of pickup locations
 
@@ -131,7 +133,7 @@ class Store:
             with open(self.PICKUP_LOCATIONS_CSV, "a") as f:
                 f.write(
                     f"{name},{address.street1},{address.street2},{address.city},{address.state},{address.zip},"
-                    f"{address.coordinates[0]},{address.coordinates[1]}\n"
+                    f"{address.coordinates[0]},{address.coordinates[1]},{weight}\n"
                 )
 
         return self.pickup_locations

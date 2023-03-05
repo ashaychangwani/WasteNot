@@ -154,8 +154,13 @@ class ChatBot:
         except Exception as _:
             zip_code = 0
 
+        try:
+            weight = float(weight)
+        except Exception as _:
+            weight = 0
+
         ChatBot.store.add_pickup_location(
-            phone, Address(street1, street2, city, state, zip_code)
+            phone, Address(street1, street2, city, state, zip_code), weight
         )
 
         MessagingBot().send_message(
