@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ChatBot from './src/chatbot'
 import Delivery from './src/deliver';
+import Leaderboard from './src/leaderboard'; 
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,9 @@ function HomeScreen({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Deliver')}>
         <Text style={styles.buttonText}>Deliver Food</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Leaderboard')}>
+        <Text style={styles.buttonText}>Leaderboard</Text>
       </TouchableOpacity>
     </View>
   );
@@ -45,6 +49,7 @@ export default function App() {
         <Stack.Screen name="Waste Not" component={HomeScreen}/>
         <Stack.Screen name="Donate" component={Donate} />
         <Stack.Screen name="Deliver" component={Deliver} />
+        <Stack.Screen name="Leaderboard" component={Leaderboard} />
       </Stack.Navigator>
     </NavigationContainer>
   );

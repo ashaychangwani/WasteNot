@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     width: '100%',
-    paddingBottom: 20
+    paddingBottom: 20,
+    maxHeight: '100%',
   },
   title: {
     fontSize: 20,
@@ -108,8 +109,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   body: {
+    flex: 1,
     backgroundColor: '#f1f1f1',
     width: '90%',
+    maxHeight: '100%',
     height: '80%',
     margin: 10,
     borderRadius: 15,
@@ -121,7 +124,7 @@ const styles = StyleSheet.create({
   message:{
     fontSize: 16,
     maxWidth: '70%',
-    letterSpacing: 0.65,
+    letterSpacing: 0.45,
     marginLeft: 5,
     padding: 8,
     borderWidth: 1,
