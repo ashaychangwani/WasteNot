@@ -28,8 +28,11 @@ if __name__ == "__main__":
     )
 
     # Calculate the route
-    print(route_planner.get_route())
-    print(route_planner.get_google_maps_link())
+    route = route_planner.get_route()
+    print(route)
+    print(route_planner.get_google_maps_link(stops=route))
 
     # Calculate the route matrix
-    print(route_planner.get_stops(30))
+    stops = route_planner.get_stops(30)
+    print(stops)
+    print(route_planner.get_google_maps_link(stops=stops))

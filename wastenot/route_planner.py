@@ -210,18 +210,24 @@ class RoutePlanner:
 
         return route_info
 
-    def get_google_maps_link(self) -> str:
+    def get_google_maps_link(self, stops: list[(str, Address)] | None = None) -> str:
         """
         Get the Google Maps link for the route with waypoints
+        :param stops: List of stops to include in the route
         :return: Google Maps link
         """
-        route = self.get_route()
+        # Get stops if not provided
+        if stops is None:
+            stops = self.get_stops()
 
         # Build the url
         url = "https://www.google.com/maps/dir/"
 
         # Add the start and destination to include in the route
-        route = [("start", self.start)] + route + [("destination", self.destination)]
+        if stops != []:
+            route = [("start", self.start)] + stops + [("destination", self.destination)]
+        else:
+            route = [("start", self.start), ("destination", self.destination)]
 
         for _, address in route:
             url += f"{urllib.parse.urlencode({'st1': address.street1.replace(' ', '+')}, safe='+')[4:]},"
