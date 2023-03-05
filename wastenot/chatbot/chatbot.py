@@ -3,6 +3,7 @@ ChatBot class file
 """
 
 import re
+from pathlib import Path
 
 import backoff
 import openai
@@ -30,7 +31,7 @@ class ChatBot:
             "please let me know details about the food you'd like to donate!"
         )
 
-        with open("wastenot/chatbot/prompt.txt", "r") as file:
+        with open(Path(__file__).parent.joinpath("prompt.txt"), "r") as file:
             self.base_prompt = file.read()
 
     def build_prompt(self) -> str:
