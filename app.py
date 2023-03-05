@@ -91,46 +91,44 @@ def driver_pickup() -> json:
     -------------------
     {
         phone: <phone number>,
-        addresses: [<serialized address object>, ...]
-        destination: <serialized address object>
+        destination: <serialized address object>,
+        time: <time available in minutes>
     }
     """
-    try:
-        data = json.loads(request.data.decode("utf-8"))
+    data = json.loads(request.data.decode("utf-8"))
 
-        phone = data["phone"]
-        addresses = data["addresses"]
-        destination = Address.load(data["destination"])
+    phone = data["phone"]
+    destination = store.get_food_bank(data["destination"])
+    time = data["time"]
 
-        # Load the addresses
-        stops = {}
-        for name, address in addresses.items():
-            stops[name] = Address.load(address)
+    # Get the pickup locations addresses
+    pickup_locations = {}
+    for name, address in store.pickup_locations.items():
+        pickup_locations[name] = address
 
-        # Iterate through the addresses
-        count = 0
-        for address in addresses:
-            # Remove the address from the store
-            store.remove_pickup_location(address)
-            count += 1
+    # Fix the start location to CEWIT
+    start = Address("1500 Stony Brook Rd", "", "Stony Brook", "NY", 11790)
 
-        # Fix the start location to CEWIT
-        start = Address("1500 Stony Brook Rd", "", "Stony Brook", "NY", 11790)
+    route_planner = RoutePlanner(start, destination, pickup_locations)
 
-        # Create route planner
-        route_planner = RoutePlanner(start, destination, stops)
-        map_link = route_planner.get_google_maps_link(stops=route_planner.get_route())
+    # Get the stops
+    addresses = route_planner.get_stops(time)
 
-        # Send a text message to the driver
-        MessagingBot().send_message(
-            f"Thank you for helping to pick up {count} food donations! "
-            f"Here is the route you should take: {map_link}",
-            phone,
-        )
+    # Iterate through the addresses and remove them from the store
+    count = 0
+    for name, _ in addresses:
+        store.remove_pickup_location(name)
+        count += 1
 
-    except Exception as e:
-        # Return error response
-        return jsonify({"success": False, "error": str(e)})
+    # Create route planner
+    map_link = route_planner.get_google_maps_link(stops=addresses)
+
+    # Send a text message to the driver
+    MessagingBot().send_message(
+        f"Thank you for helping to pick up {count} food donations! "
+        f"Here is the route you should take: {map_link}",
+        phone,
+    )
 
     # Return JSON response
     return jsonify({"success": True})
