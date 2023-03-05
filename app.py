@@ -7,8 +7,9 @@ import json
 from flask import Flask, jsonify, request
 
 from wastenot import RoutePlanner, Store
-from wastenot.models import Address
 from wastenot.chatbot.chatbot import ChatBot
+from wastenot.messaging import MessagingBot
+from wastenot.models import Address
 
 store = Store()
 app = Flask(__name__)
@@ -85,15 +86,48 @@ def driver_pickup() -> json:
     """
     Driver accepts to pick up at a list of addresses
     :return: True if successful
+
+    Request body format
+    -------------------
+    {
+        phone: <phone number>,
+        addresses: [<serialized address object>, ...]
+        destination: <serialized address object>
+    }
     """
     try:
-        # Get the list of addresses
-        addresses = json.loads(request.data.decode("utf-8"))
+        data = json.loads(request.data.decode("utf-8"))
+
+        phone = data["phone"]
+        addresses = data["addresses"]
+        destination = Address.load(data["destination"])
+
+        # Load the addresses
+        stops = {}
+        for name, address in addresses.items():
+            stops[name] = Address.load(address)
 
         # Iterate through the addresses
+        count = 0
         for address in addresses:
             # Remove the address from the store
             store.remove_pickup_location(address)
+            count += 1
+
+        # Fix the start location to CEWIT
+        start = Address("1500 Stony Brook Rd", "", "Stony Brook", "NY", 11790)
+
+        # Create route planner
+        route_planner = RoutePlanner(start, destination, stops)
+        map_link = route_planner.get_google_maps_link(stops=route_planner.get_route())
+
+        # Send a text message to the driver
+        MessagingBot().send_message(
+            f"Thank you for helping to pick up {count} food donations!"
+            f"Here is the route you should take: {map_link}",
+            phone,
+        )
+
     except Exception as e:
         # Return error response
         return jsonify({"success": False, "error": str(e)})
