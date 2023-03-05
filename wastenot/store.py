@@ -6,6 +6,7 @@ What needs to be stored?
 - Pickup locations
 """
 
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -94,6 +95,15 @@ class Store:
         Note: If the food bank already exists, it will be overwritten.
         """
         self.food_banks[name] = address
+
+        if save:
+            # Add the food bank to the end of the file
+            with open(self.FOOD_BANKS_CSV, "a") as f:
+                f.write(
+                    f"{name},{address.street1},{address.street2},{address.city},{address.state},{address.zip},"
+                    f"{address.coordinates[0]},{address.coordinates[1]},\n"
+                )
+
         return self.food_banks
 
     def add_pickup_location(
@@ -109,6 +119,15 @@ class Store:
         Note: If the pickup location already exists, it will be overwritten.
         """
         self.pickup_locations[name] = address
+
+        if save:
+            # Add the pickup location to the end of the file
+            with open(self.PICKUP_LOCATIONS_CSV, "a") as f:
+                f.write(
+                    f"{name},{address.street1},{address.street2},{address.city},{address.state},{address.zip},"
+                    f"{address.coordinates[0]},{address.coordinates[1]}\n"
+                )
+
         return self.pickup_locations
 
     def remove_food_bank(self, name: str) -> dict[str, Address]:
