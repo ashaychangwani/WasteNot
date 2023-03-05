@@ -2,6 +2,7 @@
 Route Planner class file
 """
 
+import heapq
 import json
 import os
 import urllib.parse
@@ -51,9 +52,10 @@ class RoutePlanner:
 
         return RoutePlanner(start, destination, stops)
 
-    def get_stops(self) -> dict[str, Address]:
+    def get_stops(self, time: int = 30) -> list[(str, Address)]:
         """
         Get the stops to make
+        :param time: Time to make the stops in minutes
         :return: Dictionary of stops
 
         Uses `https://api.mapbox.com/directions-matrix/v1/{profile}/{coordinates}` api to calculate the route.
@@ -78,13 +80,88 @@ class RoutePlanner:
 
         # Handle code
         if response["code"] != "Ok":
-            raise ValueError(f"Could not get route matrix. Error: {response['message']}")
+            raise ValueError(
+                f"Could not get route matrix. Error: {response['message']}"
+            )
 
         # Get the durations
         durations = response["durations"]
-        # TODO: implement logic to get the stops
+        route_i, durations, profits = self.find_optimal_route(durations, time * 60)
 
-        return self.stops
+        # Handle no route found
+        if route_i is None:
+            return []
+
+        # Get the stops
+        stops = []
+        stops_names = list(self.stops.keys())
+        for stop_i in route_i[1:-1]:
+            stop_name = stops_names[stop_i - 1]
+            stops.append((stop_name, self.stops[stop_name]))
+
+        return stops
+
+    @staticmethod
+    def find_optimal_route(
+        durations: list[list[float]], time_limit: float, weights=None
+    ):
+        """
+        Find the optimal route to take
+        :param durations: Durations matrix of the possible routes
+        :param time_limit: Time limit to get to the destination
+        :param weights: Profits matrix of the possible routes
+        :return: Tuple of the best profit, best route, and best distance
+        """
+
+        n: int = len(durations)
+        source: int = 0
+        destination: int = n - 1
+
+        # Set the weights to 1 if not provided.
+        # Set the source and destination weights to 0.
+        if weights is None:
+            weights = [1 for _ in range(n)]
+            weights[source] = 0
+            weights[destination] = 0
+
+        best_solution = None
+        best_profit = 0
+        best_route = None
+        best_distance = 0
+
+        priority_queue = [(0, 0, source, {source}, [source])]
+
+        while priority_queue:
+            distance, profit, node, visited, route = heapq.heappop(priority_queue)
+
+            if (node == destination and distance <= time_limit) and (
+                profit > best_profit
+                or (profit == best_profit and distance < best_distance)
+            ):
+                best_profit = profit
+                best_solution = visited
+                best_route = route
+                best_distance = distance
+
+            for child_node in range(n):
+                if child_node not in visited and child_node != source:
+                    child_distance = distance + durations[node][child_node]
+                    child_profit = profit + weights[child_node]
+                    if child_distance <= time_limit and child_profit > best_profit:
+                        child_route = route.copy()
+                        child_route.append(child_node)
+                        heapq.heappush(
+                            priority_queue,
+                            (
+                                child_distance,
+                                child_profit,
+                                child_node,
+                                visited | {child_node},
+                                child_route,
+                            ),
+                        )
+
+        return best_route, best_distance, best_profit
 
     def get_route(self) -> list[(str, Address)]:
         """
@@ -133,18 +210,24 @@ class RoutePlanner:
 
         return route_info
 
-    def get_google_maps_link(self) -> str:
+    def get_google_maps_link(self, stops: list[(str, Address)] | None = None) -> str:
         """
         Get the Google Maps link for the route with waypoints
+        :param stops: List of stops to include in the route
         :return: Google Maps link
         """
-        route = self.get_route()
+        # Get stops if not provided
+        if stops is None:
+            stops = self.get_stops()
 
         # Build the url
         url = "https://www.google.com/maps/dir/"
 
         # Add the start and destination to include in the route
-        route = [("start", self.start)] + route + [("destination", self.destination)]
+        if stops != []:
+            route = [("start", self.start)] + stops + [("destination", self.destination)]
+        else:
+            route = [("start", self.start), ("destination", self.destination)]
 
         for _, address in route:
             url += f"{urllib.parse.urlencode({'st1': address.street1.replace(' ', '+')}, safe='+')[4:]},"
@@ -159,9 +242,7 @@ class RoutePlanner:
 
     @staticmethod
     def build_coordinates_string(
-            start: Address | None,
-            stops: dict[str, Address],
-            destination: Address | None
+        start: Address | None, stops: dict[str, Address], destination: Address | None
     ) -> str:
         """
         Build the coordinates string for the route

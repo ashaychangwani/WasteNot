@@ -11,8 +11,8 @@ if __name__ == "__main__":
         "Madison Square Garden": Address("4 Pennsylvania Plaza", None, "New York", "NY", 10001),
         "Empire State Building": Address("350 5th Ave", None, "New York", "NY", 10118),
         "Grand Central Terminal": Address("Grand Central Terminal", None, "New York", "NY", 10017),
-        "Central Park Zoo": Address("Central Park Zoo", None, "New York", "NY", 10024),
         "Battery Park": Address("Battery Park", None, "New York", "NY", 10004),
+        "Central Park Zoo": Address("Central Park Zoo", None, "New York", "NY", 10024),
     }
 
     # Build the stops dictionary
@@ -28,8 +28,11 @@ if __name__ == "__main__":
     )
 
     # Calculate the route
-    print(route_planner.get_route())
-    print(route_planner.get_google_maps_link())
+    route = route_planner.get_route()
+    print(route)
+    print(route_planner.get_google_maps_link(stops=route))
 
     # Calculate the route matrix
-    print(route_planner.get_stops())
+    stops = route_planner.get_stops(30)
+    print(stops)
+    print(route_planner.get_google_maps_link(stops=stops))
