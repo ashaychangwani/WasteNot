@@ -26,8 +26,8 @@ class Address:
         """
         Post init method to validate the inputs
         """
-        # Set street2 to "" if it is None
-        if self.street2 is None:
+        # Set street2 to "" if it is None or float
+        if self.street2 is None or isinstance(self.street2, float):
             self.street2 = ""
 
         # Check if the inputs are valid
