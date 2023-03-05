@@ -97,7 +97,7 @@ class RoutePlanner:
 
         # Handle no route found
         if route_i is None:
-            return []
+            return [], 0
 
         # Get the stops
         stops = []
@@ -119,7 +119,8 @@ class RoutePlanner:
         :param weights: Profits matrix of the possible routes
         :return: Tuple of the best profit, best route, and best distance
         """
-
+        for d in durations:
+            print(d)
         n: int = len(durations)
         source: int = 0
         destination: int = n - 1
@@ -279,6 +280,10 @@ class RoutePlanner:
 
         for name, address in stops.items():
             coords += f"{address.coordinates[1]},{address.coordinates[0]};"
+            print(store.pickup_locations_df)
+            print(store.pickup_locations_df[store.pickup_locations_df["name"] == name][
+                      "weight"
+                  ])
             weights.append(
                 store.pickup_locations_df[store.pickup_locations_df["name"] == name][
                     "weight"
