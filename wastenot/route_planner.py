@@ -225,7 +225,9 @@ class RoutePlanner:
 
         # Add the start and destination to include in the route
         if stops != []:
-            route = [("start", self.start)] + stops + [("destination", self.destination)]
+            route = (
+                [("start", self.start)] + stops + [("destination", self.destination)]
+            )
         else:
             route = [("start", self.start), ("destination", self.destination)]
 

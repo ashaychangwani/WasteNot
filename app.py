@@ -14,6 +14,8 @@ store = Store()
 app = Flask(__name__)
 
 chats = dict()
+
+
 @app.route("/echo", methods=["GET"])
 def echo() -> json:
     """
@@ -33,11 +35,11 @@ def chat() -> json:
         data = request.json
         if len(data) != 2:
             raise ValueError("Invalid format.")
-        id = data['id']
+        id = data["id"]
         if id not in chats:
             chats[id] = ChatBot()
-        query = data['query']
-        print('query is ',query)
+        query = data["query"]
+        print("query is ", query)
         response = chats[id].getResponse(query)
         return jsonify({"success": True, "prompt": str(response)})
     except Exception as e:
@@ -95,4 +97,4 @@ def navigate() -> json:
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001, host = '0.0.0.0')
+    app.run(debug=True, port=5001, host="0.0.0.0")
