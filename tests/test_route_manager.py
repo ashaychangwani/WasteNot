@@ -30,3 +30,6 @@ if __name__ == "__main__":
     # Calculate the route
     print(route_planner.get_route())
     print(route_planner.get_google_maps_link())
+
+    # Calculate the route matrix
+    print(route_planner.get_stops())

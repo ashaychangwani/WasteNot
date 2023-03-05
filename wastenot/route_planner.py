@@ -51,6 +51,41 @@ class RoutePlanner:
 
         return RoutePlanner(start, destination, stops)
 
+    def get_stops(self) -> dict[str, Address]:
+        """
+        Get the stops to make
+        :return: Dictionary of stops
+
+        Uses `https://api.mapbox.com/directions-matrix/v1/{profile}/{coordinates}` api to calculate the route.
+        """
+        MAPBOX_API_KEY = os.getenv("MAPBOX_API_KEY")
+
+        profile = "mapbox/driving-traffic"
+
+        # Build the coordinates string
+        coords = self.build_coordinates_string(self.start, self.stops, self.destination)
+
+        # Build the url
+        url = (
+            f"https://api.mapbox.com/directions-matrix/v1/{profile}/{coords}?"
+            f"sources=all&"
+            f"destinations=all&"
+            f"access_token={MAPBOX_API_KEY}"
+        )
+
+        # Make the request and get the json response
+        response = requests.get(url).json()
+
+        # Handle code
+        if response["code"] != "Ok":
+            raise ValueError(f"Could not get route matrix. Error: {response['message']}")
+
+        # Get the durations
+        durations = response["durations"]
+        # TODO: implement logic to get the stops
+
+        return self.stops
+
     def get_route(self) -> list[(str, Address)]:
         """
         Get the optimal route the driver should take
@@ -63,12 +98,7 @@ class RoutePlanner:
         profile = "mapbox/driving-traffic"
 
         # Build the coordinates string
-        coords = f"{self.start.coordinates[1]},{self.start.coordinates[0]};"
-        # Add the coordinates of the stops
-        for stop in self.stops.values():
-            coords += f"{stop.coordinates[1]},{stop.coordinates[0]};"
-        # Add the destination coordinates
-        coords += f"{self.destination.coordinates[1]},{self.destination.coordinates[0]}"
+        coords = self.build_coordinates_string(self.start, self.stops, self.destination)
 
         # Build the url
         url = (
@@ -126,3 +156,30 @@ class RoutePlanner:
             url += "/"
 
         return url
+
+    @staticmethod
+    def build_coordinates_string(
+            start: Address | None,
+            stops: dict[str, Address],
+            destination: Address | None
+    ) -> str:
+        """
+        Build the coordinates string for the route
+        :param start: Starting address
+        :param stops: List of stops to make
+        :param destination: Destination address
+        :return: Coordinates string
+        """
+
+        coords = ""
+
+        if start:
+            coords += f"{start.coordinates[1]},{start.coordinates[0]};"
+
+        for _, stop in stops.items():
+            coords += f"{stop.coordinates[1]},{stop.coordinates[0]};"
+
+        if destination:
+            coords += f"{destination.coordinates[1]},{destination.coordinates[0]}"
+
+        return coords
