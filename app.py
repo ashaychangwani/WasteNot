@@ -8,17 +8,42 @@ from flask import Flask, jsonify, request
 
 from wastenot import RoutePlanner, Store
 from wastenot.models import Address
+from wastenot.chatbot.chatbot import ChatBot
 
 store = Store()
 app = Flask(__name__)
 
-
+chats = dict()
 @app.route("/echo", methods=["GET"])
 def echo() -> json:
     """
     Echoes the request body back to the client
     :return: JSON response
     """
+    return jsonify({"data": request.data.decode("utf-8")})
+
+
+@app.route("/chat", methods=["POST"])
+def chat() -> json:
+    """
+    Echoes the requst body back to the client
+    :return: JSON response
+    """
+    try:
+        data = request.json
+        if len(data) != 2:
+            raise ValueError("Invalid format.")
+        id = data['id']
+        if id not in chats:
+            chats[id] = ChatBot()
+        query = data['query']
+        print('query is ',query)
+        response = chats[id].getResponse(query)
+        return jsonify({"success": True, "prompt": str(response)})
+    except Exception as e:
+        # Return error response
+        print(e)
+        return jsonify({"success": False, "error": str(e)})
     return jsonify({"data": request.data.decode("utf-8")})
 
 
@@ -70,4 +95,4 @@ def navigate() -> json:
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001, host = '0.0.0.0')
