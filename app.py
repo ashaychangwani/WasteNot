@@ -19,10 +19,22 @@ CORS(app, origins=["*"], allow_headers=["Content-Type"], supports_credentials=Tr
 
 chats = dict()
 
+
 @app.after_request
 def add_header(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    """
+    Add headers to enable CORS
+    :param response: Response object to add headers to
+    :return: Response object with headers
+    """
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers[
+        "Access-Control-Allow-Headers"
+    ] = "Access-Control-Allow-Origin,Content-Type"
+    response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
+    response.headers["Access-Control-Allow-Max-Age"] = "86400"
     return response
+
 
 @app.route("/echo", methods=["GET"])
 def echo() -> json:
