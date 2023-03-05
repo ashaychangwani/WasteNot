@@ -81,46 +81,29 @@ class ChatBot:
             variables = {}
             for match in matches:
                 variables[match[0]] = match[1]
-
-            type_of_food = variables.get("Type of food", "N/A")
-            weight = variables.get("Weight", "N/A")
-            street = variables.get("Street Address", "N/A")
-            apt = variables.get("Apartment", "N/A")
-            city = variables.get("City", "N/A")
-            state = variables.get("State", "N/A")
-            zip_code = variables.get("Zip", "N/A")
-            na_count = sum(
-                value == "N/A"
-                for value in [type_of_food, weight, street, apt, city, state, zip_code]
-            )
+            
+            type_of_food = variables.get('Type of food', 'N/A')
+            weight = variables.get('Weight', 'N/A')
+            street = variables.get('Street Address', 'N/A')
+            apt = variables.get('Apartment', 'N/A')
+            city = variables.get('City', 'N/A')
+            state = variables.get('State', 'N/A')
+            zip_code = variables.get('Zip', 'N/A')
+            phone = variables.get('Phone Number', 'N/A')
+            na_count = sum(value == 'N/A' for value in [type_of_food, weight, street, apt, city, state, zip_code, phone])
             if na_count < 3:
-                self.add_location_to_db(
-                    type_of_food, weight, street, apt, city, state, zip_code
-                )
-
-    def add_location_to_db(
-        self, type_of_food, weight, street, apt, city, state, zip_code
-    ):
-        """
-        Add the location to the database
-        :param type_of_food: Type of food
-        :param weight: Weight
-        :param street: Street
-        :param apt: Apartment
-        :param city: City
-        :param state: State
-        :param zip_code: Zip code
-        :return: None
-        """
+                self.addLocationToDB(type_of_food, weight, street, apt, city, state, zip_code, phone)
+        
+    def addLocationToDB(self, type_of_food, weight, street, apt, city, state, zip_code, phone):
         # TODO: add to database
-        print("Type of Food:", type_of_food)
-        print("Weight:", weight)
-        print("Street:", street)
-        print("Apt:", apt)
-        print("City:", city)
-        print("State:", state)
-        print("Zip:", zip_code)
-
+        print('Type of Food:', type_of_food)
+        print('Weight:', weight)
+        print('Street:', street)
+        print('Apt:', apt)
+        print('City:', city)
+        print('State:', state)
+        print('Zip:', zip_code)
+        print('Phone:', phone)
 
 if __name__ == "__main__":
     __bot = ChatBot()
