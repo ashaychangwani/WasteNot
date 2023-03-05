@@ -50,7 +50,7 @@ class ChatBot:
         return self.base_prompt + ("\n".join(formatted_strings)) + self.start_sequence
 
     @backoff.on_exception(backoff.expo, (RateLimitError, ServiceUnavailableError))
-    def getResponse(self, query: str) -> str:
+    def get_response(self, query: str) -> str:
         """
         Get the response from the OpenAI API
         :param query: Query string
@@ -140,4 +140,4 @@ if __name__ == "__main__":
     while __query != "":
         __query = input("A: ")
         if __query != "":
-            print(__bot.getResponse(__query))
+            print(__bot.get_response(__query))

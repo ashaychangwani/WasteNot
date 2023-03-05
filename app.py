@@ -40,7 +40,7 @@ def chat() -> json:
             chats[id] = ChatBot()
         query = data["query"]
         print("query is ", query)
-        response = chats[id].getResponse(query)
+        response = chats[id].get_response(query)
         return jsonify({"success": True, "prompt": str(response)})
     except Exception as e:
         # Return error response
