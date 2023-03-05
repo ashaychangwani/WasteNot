@@ -9,7 +9,10 @@ import urllib.parse
 
 import requests
 
+from wastenot.store import Store
 from .models import Address
+
+store = Store()
 
 
 class RoutePlanner:
@@ -65,7 +68,9 @@ class RoutePlanner:
         profile = "mapbox/driving-traffic"
 
         # Build the coordinates string
-        coords = self.build_coordinates_string(self.start, self.stops, self.destination)
+        coords, _ = self.build_coordinates_string(
+            self.start, self.stops, self.destination
+        )
 
         # Build the url
         url = (
@@ -175,7 +180,9 @@ class RoutePlanner:
         profile = "mapbox/driving-traffic"
 
         # Build the coordinates string
-        coords = self.build_coordinates_string(self.start, self.stops, self.destination)
+        coords, _ = self.build_coordinates_string(
+            self.start, self.stops, self.destination
+        )
 
         # Build the url
         url = (
@@ -252,24 +259,30 @@ class RoutePlanner:
     @staticmethod
     def build_coordinates_string(
         start: Address | None, stops: dict[str, Address], destination: Address | None
-    ) -> str:
+    ) -> (str, dict[str, float]):
         """
         Build the coordinates string for the route
         :param start: Starting address
         :param stops: List of stops to make
         :param destination: Destination address
-        :return: Coordinates string
+        :return: Coordinates string and dictionary of stops to weights
         """
 
         coords = ""
+        weights = {}
 
         if start:
             coords += f"{start.coordinates[1]},{start.coordinates[0]};"
+            weights["start"] = 0
 
-        for _, stop in stops.items():
-            coords += f"{stop.coordinates[1]},{stop.coordinates[0]};"
+        for name, address in stops.items():
+            coords += f"{address.coordinates[1]},{address.coordinates[0]};"
+            weights[name] = store.pickup_locations_df[
+                store.pickup_locations_df["name"] == name
+            ]["weight"].values[0]
 
         if destination:
             coords += f"{destination.coordinates[1]},{destination.coordinates[0]}"
+            weights["destination"] = 0
 
-        return coords
+        return coords, weights
