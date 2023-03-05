@@ -5,6 +5,7 @@ Flask Server
 import json
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 from wastenot import RoutePlanner, Store
 from wastenot.chatbot.chatbot import ChatBot
@@ -13,9 +14,15 @@ from wastenot.models import Address
 
 store = Store()
 app = Flask(__name__)
+CORS(app)
+CORS(app, origins=["*"], allow_headers=["Content-Type"], supports_credentials=True)
 
 chats = dict()
 
+@app.after_request
+def add_header(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 @app.route("/echo", methods=["GET"])
 def echo() -> json:
