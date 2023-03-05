@@ -52,8 +52,8 @@ def chat() -> json:
         return jsonify({"success": False, "error": str(e)})
 
 
-@app.route("/pickup", methods=["POST"])
-def pickup() -> json:
+@app.route("/order-pickup", methods=["POST"])
+def order_pickup() -> json:
     """
     Place an order to pick up at the address
     :return: True if successful
