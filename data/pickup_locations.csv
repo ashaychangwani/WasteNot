@@ -1,7 +1,7 @@
-name,street1,street2,city,state,zip,latitude,longitude
-John S,123 Main St,,New York,NY,10001,40.750568,-73.994086
-Emily K,456 7th Ave,,Brooklyn,NY,11215,40.663527,-73.983057
-Rachel D,432 2nd Ave,,Long Island City,NY,11101,40.748017,-73.956584
-James H,234 5th Ave,,New York,NY,10001,40.743001,-73.989572
-Sarah P,567 8th St,,Brooklyn,NY,11215,40.666911,-73.979977
-Michael C,890 Broadway,,New York,NY,10003,40.738237,-73.989791
+name,street1,street2,city,state,zip,latitude,longitude,weight
+John S,123 Main St,,New York,NY,10001,40.750568,-73.994086,1.2
+Emily K,456 7th Ave,,Brooklyn,NY,11215,40.663527,-73.983057,3.75
+Rachel D,432 2nd Ave,,Long Island City,NY,11101,40.748017,-73.956584,5.0
+James H,234 5th Ave,,New York,NY,10001,40.743001,-73.989572,12
+Sarah P,567 8th St,,Brooklyn,NY,11215,40.666911,-73.979977,0.5
+Michael C,890 Broadway,,New York,NY,10003,40.738237,-73.989791,6
