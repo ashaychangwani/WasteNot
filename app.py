@@ -137,7 +137,7 @@ def driver_pickup() -> json:
     # Iterate through the addresses and remove them from the store
     count = 0
     for name, _ in addresses:
-        store.remove_pickup_location(name)
+        # store.remove_pickup_location(name)
         count += 1
 
     # Create route planner
