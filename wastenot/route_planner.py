@@ -55,7 +55,7 @@ class RoutePlanner:
 
         return RoutePlanner(start, destination, stops)
 
-    def get_stops(self, time: int = 30) -> list[(str, Address)]:
+    def get_stops(self, time: int = 30) -> (list[(str, Address)], float):
         """
         Get the stops to make
         :param time: Time to make the stops in minutes
@@ -91,7 +91,7 @@ class RoutePlanner:
 
         # Get the durations
         durations = response["durations"]
-        route_i, durations, profits = self.find_optimal_route(
+        route_i, durations, total_weight = self.find_optimal_route(
             durations, time * 60, weights
         )
 
@@ -106,7 +106,7 @@ class RoutePlanner:
             stop_name = stops_names[stop_i - 1]
             stops.append((stop_name, self.stops[stop_name]))
 
-        return stops
+        return stops, total_weight
 
     @staticmethod
     def find_optimal_route(
@@ -227,7 +227,7 @@ class RoutePlanner:
         """
         # Get stops if not provided
         if stops is None:
-            stops = self.get_stops()
+            stops, total_weight = self.get_stops()
 
         # Build the url
         url = "https://www.google.com/maps/dir/"

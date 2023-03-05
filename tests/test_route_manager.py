@@ -33,6 +33,6 @@ if __name__ == "__main__":
     print(route_planner.get_google_maps_link(stops=route))
 
     # Calculate the route matrix
-    stops = route_planner.get_stops(30)
+    stops, total_weight = route_planner.get_stops(30)
     print(stops)
     print(route_planner.get_google_maps_link(stops=stops))

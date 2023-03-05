@@ -131,7 +131,7 @@ def driver_pickup() -> json:
     route_planner = RoutePlanner(start, destination, pickup_locations)
 
     # Get the stops
-    addresses = route_planner.get_stops(time)
+    addresses, total_weight = route_planner.get_stops(time)
 
     # Iterate through the addresses and remove them from the store
     count = 0
@@ -183,7 +183,7 @@ def driver_query() -> json:
     route_planner = RoutePlanner(start, destination, pickup_locations)
 
     # Get the stops
-    addresses = route_planner.get_stops(time)
+    addresses, total_weight = route_planner.get_stops(time)
 
     # Compare the number of stops to the database
     for name, address in addresses:
