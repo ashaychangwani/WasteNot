@@ -123,7 +123,7 @@ def driver_pickup() -> json:
 
         # Send a text message to the driver
         MessagingBot().send_message(
-            f"Thank you for helping to pick up {count} food donations!"
+            f"Thank you for helping to pick up {count} food donations! "
             f"Here is the route you should take: {map_link}",
             phone,
         )
