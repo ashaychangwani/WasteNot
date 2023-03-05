@@ -68,7 +68,7 @@ class RoutePlanner:
         profile = "mapbox/driving-traffic"
 
         # Build the coordinates string
-        coords, _ = self.build_coordinates_string(
+        coords, weights = self.build_coordinates_string(
             self.start, self.stops, self.destination
         )
 
@@ -91,7 +91,9 @@ class RoutePlanner:
 
         # Get the durations
         durations = response["durations"]
-        route_i, durations, profits = self.find_optimal_route(durations, time * 60)
+        route_i, durations, profits = self.find_optimal_route(
+            durations, time * 60, weights
+        )
 
         # Handle no route found
         if route_i is None:
