@@ -8,6 +8,9 @@ import backoff
 import openai
 from openai.error import RateLimitError, ServiceUnavailableError
 
+from wastenot import Store
+from wastenot.models import Address
+
 
 class ChatBot:
     """
@@ -104,14 +107,22 @@ class ChatBot:
                 ]
             )
             if na_count < 3:
-                self.addLocationToDB(
+                self.add_pickup_location(
                     type_of_food, weight, street, apt, city, state, zip_code, phone
                 )
 
-    def addLocationToDB(
-        self, type_of_food, weight, street, apt, city, state, zip_code, phone
+    def add_pickup_location(
+        self, type_of_food: str, weight: str, street: str, apt: str, city: str, state: str, zip_code: str, phone: str
     ):
-        # TODO: add to database
+        try:
+            zip_code = int(zip_code)
+        except Exception as _:
+            zip_code = 0
+
+        Store().add_pickup_location(
+            str(phone), Address(street, apt, city, state, zip_code)
+        )
+
         print("Type of Food:", type_of_food)
         print("Weight:", weight)
         print("Street:", street)
