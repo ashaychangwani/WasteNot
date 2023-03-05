@@ -31,16 +31,15 @@ class Store:
     pickup_weights: dict[str, float] = {}
 
     def __init__(self):
-        if self.food_banks == {}:
-            self.load_food_banks()
-        if self.pickup_locations == {}:
-            self.load_pickup_locations()
+        self.load_food_banks()
+        self.load_pickup_locations()
 
     def load_food_banks(self) -> dict[str, Address]:
         """
         Load food banks from the CSV file
         :return: Dictionary of food banks
         """
+
         self.food_banks_df["address"] = self.food_banks_df.apply(
             lambda row: Address(
                 row["street1"], row["street2"], row["city"], row["state"], row["zip"]
@@ -50,7 +49,7 @@ class Store:
 
         # Add food banks to the dictionary
         for _, row in self.food_banks_df.iterrows():
-            self.add_food_bank(row["name"], row["address"], save=False)
+            self.add_food_bank_cons(row["name"], row["address"], save=False)
 
         return self.food_banks
 
@@ -68,7 +67,7 @@ class Store:
 
         # Add pickup locations to the dictionary
         for _, row in self.pickup_locations_df.iterrows():
-            self.add_pickup_location(
+            self.add_pickup_location_cons(
                 row["name"], row["address"], row["weight"], save=False
             )
 
@@ -114,6 +113,30 @@ class Store:
 
         return self.food_banks
 
+    def add_food_bank_cons(
+        self, name: str, address: Address, save: bool = True
+    ) -> dict[str, Address]:
+        """
+        Add a food bank to the store
+        :param name: Food bank name
+        :param address: Food bank address
+        :param save: Save the food bank to the CSV file
+        :return: Dictionary of food banks
+
+        Note: If the food bank already exists, it will be overwritten.
+        """
+        self.food_banks[name] = address
+
+        if save:
+            # Add the food bank to the end of the file
+            with open(self.FOOD_BANKS_CSV, "a") as f:
+                f.write(
+                    f"{name},{address.street1},{address.street2},{address.city},{address.state},{address.zip},"
+                    f"{address.coordinates[0]},{address.coordinates[1]},\n"
+                )
+
+        return self.food_banks
+
     def add_pickup_location(
         self, name: str, address: Address, weight: float = 0, save: bool = True
     ) -> dict[str, Address]:
@@ -130,7 +153,7 @@ class Store:
         self.pickup_locations[name] = address
 
         # Add the weight to the dataframe
-        self.pickup_locations_df.append(
+        self.pickup_locations_df = self.pickup_locations_df.append(
             {
                 "name": name,
                 "street1": address.street1,
@@ -142,6 +165,31 @@ class Store:
             },
             ignore_index=True,
         )
+
+        if save:
+            # Add the pickup location to the end of the file
+            with open(self.PICKUP_LOCATIONS_CSV, "a") as f:
+                f.write(
+                    f"{name},{address.street1},{address.street2},{address.city},{address.state},{address.zip},"
+                    f"{address.coordinates[0]},{address.coordinates[1]},{weight}\n"
+                )
+
+        return self.pickup_locations
+
+    def add_pickup_location_cons(
+        self, name: str, address: Address, weight: float = 0, save: bool = True
+    ) -> dict[str, Address]:
+        """
+        Add a pickup location to the store
+        :param name: Pickup location name
+        :param address: Pickup location address
+        :param weight: Weight of the pickup location
+        :param save: Save the pickup location to the CSV file
+        :return: Dictionary of pickup locations
+
+        Note: If the pickup location already exists, it will be overwritten.
+        """
+        self.pickup_locations[name] = address
 
         if save:
             # Add the pickup location to the end of the file

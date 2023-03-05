@@ -156,7 +156,8 @@ class ChatBot:
 
         try:
             weight = float(weight)
-        except Exception as _:
+        except Exception as e:
+            print(e)
             weight = 0
 
         ChatBot.store.add_pickup_location(

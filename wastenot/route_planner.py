@@ -12,7 +12,7 @@ import requests
 from wastenot.store import Store
 from .models import Address
 
-store = Store()
+store = None
 
 
 class RoutePlanner:
@@ -20,7 +20,10 @@ class RoutePlanner:
     Route Planner
     """
 
-    def __init__(self, start: Address, destination: Address, stops: dict[str, Address]):
+    def __init__(
+        self, start: Address, destination: Address, stops: dict[str, Address], storeArg
+    ):
+        global store
         """
         Constructor
         :param start: Starting address
@@ -31,6 +34,7 @@ class RoutePlanner:
         self.start: Address = start
         self.destination: Address = destination
         self.stops: dict[str, Address] = stops
+        store = storeArg
 
     @staticmethod
     def load(json_str: str) -> "RoutePlanner":
@@ -68,10 +72,12 @@ class RoutePlanner:
         profile = "mapbox/driving-traffic"
 
         # Build the coordinates string
+        print(self.stops)
         coords, weights = self.build_coordinates_string(
             self.start, self.stops, self.destination
         )
-
+        print(coords)
+        print(weights)
         # Build the url
         url = (
             f"https://api.mapbox.com/directions-matrix/v1/{profile}/{coords}?"
@@ -263,6 +269,7 @@ class RoutePlanner:
     def build_coordinates_string(
         start: Address | None, stops: dict[str, Address], destination: Address | None
     ) -> (str, list[float]):
+        global store
         """
         Build the coordinates string for the route
         :param start: Starting address
@@ -280,10 +287,7 @@ class RoutePlanner:
 
         for name, address in stops.items():
             coords += f"{address.coordinates[1]},{address.coordinates[0]};"
-            print(store.pickup_locations_df)
-            print(store.pickup_locations_df[store.pickup_locations_df["name"] == name][
-                      "weight"
-                  ])
+
             weights.append(
                 store.pickup_locations_df[store.pickup_locations_df["name"] == name][
                     "weight"
