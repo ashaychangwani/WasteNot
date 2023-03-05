@@ -161,12 +161,11 @@ def get_foodbanks() -> json:
     Get a list of foodbanks
     :return: JSON response
     """
-    # Create response object: {<foodbank name>: <serialized address object>}
-    return jsonify(
-        store.food_banks_df[["name", "address"]]
-        .set_index("name", inplace=False)
-        .to_dict()["address"]
-    )
+    # Create dictionary of foodbanks
+    foodbanks = store.food_banks_df[["name", "address"]].set_index("name", inplace=False).to_dict()["address"]
+
+    # Convert to array of (name, address) tuples
+    return jsonify([(name, Address.load(address)) for name, address in foodbanks.items()])
 
 
 if __name__ == "__main__":
