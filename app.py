@@ -80,6 +80,28 @@ def pickup() -> json:
     return jsonify({"success": True})
 
 
+@app.route("/driver-pickup", methods=["POST"])
+def driver_pickup() -> json:
+    """
+    Driver accepts to pick up at a list of addresses
+    :return: True if successful
+    """
+    try:
+        # Get the list of addresses
+        addresses = json.loads(request.data.decode("utf-8"))
+
+        # Iterate through the addresses
+        for address in addresses:
+            # Remove the address from the store
+            store.remove_pickup_location(address)
+    except Exception as e:
+        # Return error response
+        return jsonify({"success": False, "error": str(e)})
+
+    # Return JSON response
+    return jsonify({"success": True})
+
+
 @app.route("/navigate", methods=["POST"])
 def navigate() -> json:
     """
