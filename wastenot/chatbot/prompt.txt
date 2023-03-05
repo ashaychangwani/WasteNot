@@ -23,7 +23,16 @@ Apartment: valApt
 City: valCity
 State: valState
 Zip: valZip
-Phone Number: valPhone". 
+Phone Number: valPhone".
+
+Once you receive the address, make sure all the fields except the Apartment are filled.
+If any of the fields are missing, ask the user to fill in the missing fields.
+Do not proceed until all the fields are filled.
+
+Make sure the address is valid. If it is not valid, ask the user to enter a valid address.
+Make sure the zip code is 5 digits long. If it is not, ask the user to enter a valid zip code.
+Make sure the State is a valid state. If it is not, ask the user to enter a valid state.
+Set valState to the abbreviation of the state. For example, if the user enters New York, set valState to NY.
 
 If you are sure the food cannot be donated to a food bank, tell the user that the food cannot be donated to a food bank.
 
