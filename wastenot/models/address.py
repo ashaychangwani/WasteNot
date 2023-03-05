@@ -35,9 +35,8 @@ class Address:
             if not getattr(self, field):
                 raise ValueError(f"{field} cannot be empty.")
 
-        # Check if the state is valid
-        if not State.isValid(self.state):
-            raise ValueError(f"{self.state} is not a valid state.")
+        # Set the state enum and validate it
+        self.state = State.set_enum(self.state).name
 
         # Get the coordinates
         self.coordinates = self.__get_coordinates()
@@ -109,8 +108,8 @@ class State(Enum):
     Supported States
     """
 
-    NJ = "New Jersey"
-    NY = "New York"
+    NJ = "NEW JERSEY"
+    NY = "NEW YORK"
 
     def __str__(self) -> str:
         """
@@ -126,4 +125,17 @@ class State(Enum):
         :param state: State to check
         :return: True if valid, False otherwise
         """
-        return state in State.__members__
+        return (state.upper() in State.__members__) or (state.upper() in State.__members__.values())
+
+    @staticmethod
+    def set_enum(state: str) -> "State":
+        """
+        Convert String to Enum
+        :param state: State to convert
+        :return: State Enum
+        """
+        # Match the input enum value to the enum
+        for enum in State:
+            if state.upper() == enum.name or state.upper() == enum.value:
+                return enum
+        raise ValueError(f"Invalid state: {state}")
