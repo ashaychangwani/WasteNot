@@ -52,7 +52,7 @@ class RoutePlanner:
 
         return RoutePlanner(start, destination, stops)
 
-    def get_stops(self, time: int = 30) -> dict[str, Address]:
+    def get_stops(self, time: int = 30) -> list[(str, Address)]:
         """
         Get the stops to make
         :param time: Time to make the stops in minutes
@@ -90,14 +90,14 @@ class RoutePlanner:
 
         # Handle no route found
         if route_i is None:
-            return {}
+            return []
 
         # Get the stops
-        stops = {}
+        stops = []
         stops_names = list(self.stops.keys())
         for stop_i in route_i[1:-1]:
             stop_name = stops_names[stop_i - 1]
-            stops[stop_name] = self.stops[stop_name]
+            stops.append((stop_name, self.stops[stop_name]))
 
         return stops
 
