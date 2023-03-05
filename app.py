@@ -99,7 +99,7 @@ def driver_pickup() -> json:
 
     phone = data["phone"]
     destination = store.get_food_bank(data["destination"])
-    time = data["time"]
+    time = int(data["time"])
 
     # Get the pickup locations addresses
     pickup_locations = {}
