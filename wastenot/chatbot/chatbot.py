@@ -112,22 +112,42 @@ class ChatBot:
                     type_of_food, weight, street, apt, city, state, zip_code, phone
                 )
 
+    @staticmethod
     def add_pickup_location(
-        self, type_of_food: str, weight: str, street: str, apt: str, city: str, state: str, zip_code: str, phone: str
+        type_of_food: str,
+        weight: str,
+        street1: str,
+        street2: str,
+        city: str,
+        state: str,
+        zip_code: str,
+        phone: str,
     ):
+        """
+        Add a pickup location to the database
+        :param type_of_food: Food type
+        :param weight: Weight of food
+        :param street1: Street address 1
+        :param street2: Street address 2
+        :param city: City
+        :param state: State
+        :param zip_code: Zip code (int parseable)
+        :param phone: Phone number
+        :return: None
+        """
         try:
             zip_code = int(zip_code)
         except Exception as _:
             zip_code = 0
 
         Store().add_pickup_location(
-            str(phone), Address(street, apt, city, state, zip_code)
+            str(phone), Address(street1, street2, city, state, zip_code)
         )
 
         print("Type of Food:", type_of_food)
         print("Weight:", weight)
-        print("Street:", street)
-        print("Apt:", apt)
+        print("Street 1:", street1)
+        print("Street 2:", street2)
         print("City:", city)
         print("State:", state)
         print("Zip:", zip_code)
