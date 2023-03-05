@@ -155,5 +155,19 @@ def navigate() -> json:
     return jsonify(response)
 
 
+@app.route("/foodbanks", methods=["GET"])
+def get_foodbanks() -> json:
+    """
+    Get a list of foodbanks
+    :return: JSON response
+    """
+    # Create response object: {<foodbank name>: <serialized address object>}
+    return jsonify(
+        store.food_banks_df[["name", "address"]]
+        .set_index("name", inplace=False)
+        .to_dict()["address"]
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=8123, host="0.0.0.0")
