@@ -30,6 +30,12 @@ class Store:
     food_banks: dict[str, Address] = {}
     pickup_locations: dict[str, Address] = {}
 
+    def __init__(self):
+        if self.food_banks == {}:
+            self.load_food_banks()
+        if self.pickup_locations == {}:
+            self.load_pickup_locations()
+
     def load_food_banks(self) -> dict[str, Address]:
         """
         Load food banks from the CSV file
