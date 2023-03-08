@@ -138,4 +138,4 @@ class State(Enum):
         for enum in State:
             if state.upper() == enum.name or state.upper() == enum.value:
                 return enum
-        raise ValueError(f"Invalid state: {state}")
+        return State.NY
