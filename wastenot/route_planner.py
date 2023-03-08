@@ -12,7 +12,7 @@ import requests
 from wastenot.store import Store
 from .models import Address
 
-store = None
+store = Store()
 
 
 class RoutePlanner:
@@ -21,7 +21,7 @@ class RoutePlanner:
     """
 
     def __init__(
-        self, start: Address, destination: Address, stops: dict[str, Address], storeArg
+        self, start: Address, destination: Address, stops: dict[str, Address], store_arg
     ):
         global store
         """
@@ -34,7 +34,7 @@ class RoutePlanner:
         self.start: Address = start
         self.destination: Address = destination
         self.stops: dict[str, Address] = stops
-        store = storeArg
+        store = store_arg
 
     @staticmethod
     def load(json_str: str) -> "RoutePlanner":

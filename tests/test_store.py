@@ -38,7 +38,8 @@ if __name__ == "__main__":
     print("\n\nCheck persistence")
     store = Store()
     store.add_food_bank(
-        "Test Food Bank", Address("123 Test Food Bank", None, "Test City", "NY", "12345")
+        "Test Food Bank",
+        Address("123 Test Food Bank", None, "Test City", "NY", "12345"),
     )
     store.add_pickup_location(
         "Test Pickup Location",

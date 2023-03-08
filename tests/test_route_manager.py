@@ -2,8 +2,10 @@
 Test RoutePlanner
 """
 
-from wastenot import RoutePlanner
+from wastenot import RoutePlanner, Store
 from wastenot.models import Address
+
+store = Store()
 
 if __name__ == "__main__":
     landmarks = {
@@ -25,6 +27,7 @@ if __name__ == "__main__":
         landmarks[list(landmarks.keys())[0]],
         landmarks[list(landmarks.keys())[-1]],
         stops,
+        store,
     )
 
     # Calculate the route
