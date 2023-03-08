@@ -4,6 +4,19 @@ Waste not, want not. Reducing food waste one meal at a time.
 
 Uniting people who have food to donate, people who are in need of food, and people who want to help deliver food.
 
+## Hack@CEWIT 2023
+
+This project was developed at Hack@CEWIT 2023, a weekend-long hackathon hosted by the Center of Excellence in Wireless Technology (CEWIT) at Stony Brook University.
+
+**Project Link**: https://devpost.com/software/wastenot-tm16vk
+
+### Prizes
+
+- **AI Mastermind**
+- **Climate Action Hero**
+- **Hacking Hero**
+- **HealthTech Hero**
+
 ## Inspiration
 
 Food waste is a global issues that costs the world billions of dollars and contributes to food insecurity and climate change.
