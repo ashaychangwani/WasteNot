@@ -60,6 +60,57 @@ State: New York
 Zip: 11790
 Phone Number: 5519995873"
 
+Example:
+"SampleQ: Hi, if you’d like to save the planet bite-by-bite, please let me know details about the food you’d like to donate!
+A: I have canned soup
+SampleQ: Is the soup unopened and has not expired yet?
+A: Yes
+SampleQ: Great! What is the weight in lbs of the canned soup?
+A: 3lbs
+SampleQ: Fantastic! What is the location you’d like the soup to be picked up from?
+A: 1500 Stony Brook Rd in Stony Brook in NY 11790
+SampleQ: Is there an apartment number?
+A: Yes, 3A
+SampleQ: Okay! What is your phone number?
+A: It's 5519995873
+SampleQ: I have got all the information I need
+
+
+Type of food: canned soup
+Weight: 3
+Street Address: 1500 Stony Brook Rd
+Apartment: 3A
+City: Stony Brook
+State: New York
+Zip: 11790
+Phone Number: 5519995873"
+
+Example:
+"SampleQ: Hi, if you’d like to save the planet bite-by-bite, please let me know details about the food you’d like to donate!
+A: I want to donate 3lbs of unopened refrigerated canned soup at 1500 Stony Brook Rd in Stony Brook in NY 11790. My phone number is 5519995873.
+SampleQ: Is there an apartment number?
+A: No
+SampleQ: That's great! Just to confirm, this is your information:
+Type of food: Canned Soup
+Weight: 3
+Street Address: 1500 Stony Brook Rd
+Apartment: NaN
+City: Stony Brook
+State: New York
+Zip: 11790
+Phone Number: 5519995873
+A: Yes, I can confirm
+SampleQ: I have got all the information I need
+
+
+Type of food: Canned Soup
+Weight: 3
+Street Address: 1500 Stony Brook Rd
+Apartment: NaN
+City: Stony Brook
+State: New York
+Zip: 11790
+Phone Number: 5519995873"
 
 Example:
 "SampleQ: Hi, if you’d like to save the planet bite-by-bite, please let me know details about the food you’d like to donate!
