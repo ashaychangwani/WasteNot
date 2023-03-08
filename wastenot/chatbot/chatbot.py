@@ -72,7 +72,7 @@ class ChatBot:
             stop=["A:"],
         )
         response = response.choices[0].text.strip()
-        complete = self.check_if_completed(response)
+        complete, error_list = self.check_if_completed(response)
 
         if complete:
             self.chats = []
@@ -80,16 +80,19 @@ class ChatBot:
                 "Thank you for your donation! we'll let you know when we're ready to pick it up! "
                 "Is there anything else you'd like to donate today?"
             )
-
+        if 'information I need' in response and len(error_list) > 1:
+            response = "Please confirm the following attributes for me: " + ", ".join(error_list)
         self.chats.append(response)
         return response
 
-    def check_if_completed(self, response) -> bool:
+    def check_if_completed(self, response) -> (bool, list):
         """
         Check if the response contains the success string
         :param response: Response string
         :return: True if the conversation is complete
         """
+        error_vals = []
+
         if self.success_string in response:
             pattern = r"([A-Za-z ]+): ([A-Za-z0-9# ]+)"
             matches = re.findall(pattern, response)
@@ -105,13 +108,13 @@ class ChatBot:
             state = variables.get("State", "N/A")
             zip_code = variables.get("Zip", "N/A")
             phone = variables.get("Phone Number", "N/A")
+
             na_count = sum(
-                value == "N/A"
+                value == "N/A" or value == "" or value == "NaN"
                 for value in [
                     type_of_food,
                     weight,
                     street,
-                    apt,
                     city,
                     state,
                     zip_code,
@@ -119,12 +122,23 @@ class ChatBot:
                 ]
             )
 
-            if na_count < 3:
+            for key, value in [
+                ("Type of Food", type_of_food),
+                ("Weight", weight),
+                ("Street 1", street),
+                ("City", city),
+                ("State", state),
+                ("Zip", zip_code),
+                ("Phone", phone),
+            ]:
+                if value == "N/A" or value == "" or value == "NaN":
+                    error_vals.append(key)
+            if na_count < 1:
                 self.add_pickup_location(
                     type_of_food, weight, street, apt, city, state, zip_code, phone
                 )
-                return True
-        return False
+                return True, None
+        return False, error_vals
 
     @staticmethod
     def add_pickup_location(
@@ -149,10 +163,6 @@ class ChatBot:
         :param phone: Phone number
         :return: None
         """
-        try:
-            zip_code = int(zip_code)
-        except Exception as _:
-            zip_code = 0
 
         try:
             weight = float(weight)
