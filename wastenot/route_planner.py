@@ -38,6 +38,7 @@ class RoutePlanner:
 
     @staticmethod
     def load(json_str: str) -> "RoutePlanner":
+        global store
         """
         Deserialize the route planner from JSON string
         :param json_str: RoutePlanner JSON string
@@ -57,7 +58,7 @@ class RoutePlanner:
         for stop in address_names[1:-1]:
             stops[stop] = Address.load(address_dict[stop])
 
-        return RoutePlanner(start, destination, stops)
+        return RoutePlanner(start, destination, stops, store)
 
     def get_stops(self, time: int = 30) -> (list[(str, Address)], float):
         """
