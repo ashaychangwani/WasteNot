@@ -20,7 +20,7 @@ class Address:
     street2: str | None
     city: str
     state: str
-    zip: int
+    zip: str
 
     def __post_init__(self):
         """

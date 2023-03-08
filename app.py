@@ -127,7 +127,7 @@ def driver_pickup() -> json:
         pickup_locations[name] = address
 
     # Fix the start location to Lincoln Medical Center
-    start = Address("234 E 149th St", "", "The Bronx", "NY", 10451)
+    start = Address("234 E 149th St", "", "The Bronx", "NY", '10451')
 
     route_planner = RoutePlanner(start, destination, pickup_locations, store)
 
@@ -179,7 +179,7 @@ def driver_query() -> json:
         pickup_locations[name] = address
 
     # Fix the start location to Lincoln Medical Center
-    start = Address("234 E 149th St", "", "The Bronx", "NY", 10451)
+    start = Address("234 E 149th St", "", "The Bronx", "NY", '10451')
 
     route_planner = RoutePlanner(start, destination, pickup_locations)
 
