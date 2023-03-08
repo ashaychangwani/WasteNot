@@ -2,6 +2,7 @@
 ChatBot class file
 """
 
+import os
 import re
 from pathlib import Path
 
@@ -19,7 +20,7 @@ class ChatBot:
     ChatBot
     """
 
-    openai.api_key = "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"
+    openai.api_key = os.getenv("OPENAI_API_KEY")
     start_sequence = "\nQ:"
     restart_sequence = "\nA: "
     success_string = "all the information I need"
