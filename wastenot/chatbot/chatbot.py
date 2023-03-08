@@ -80,8 +80,10 @@ class ChatBot:
                 "Thank you for your donation! we'll let you know when we're ready to pick it up! "
                 "Is there anything else you'd like to donate today?"
             )
-        if 'information I need' in response and len(error_list) > 1:
-            response = "Please confirm the following attributes for me: " + ", ".join(error_list)
+        if "information I need" in response and len(error_list) > 1:
+            response = "Please confirm the following attributes for me: " + ", ".join(
+                error_list
+            )
         self.chats.append(response)
         return response
 

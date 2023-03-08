@@ -7,12 +7,12 @@ from wastenot.models import Address
 
 if __name__ == "__main__":
     landmarks = {
-        "Metropolitan Museum of Art": Address("1000 5th Ave", None, "New York", "NY", 10028),
-        "Madison Square Garden": Address("4 Pennsylvania Plaza", None, "New York", "NY", 10001),
-        "Empire State Building": Address("350 5th Ave", None, "New York", "NY", 10118),
-        "Grand Central Terminal": Address("Grand Central Terminal", None, "New York", "NY", 10017),
-        "Battery Park": Address("Battery Park", None, "New York", "NY", 10004),
-        "Central Park Zoo": Address("Central Park Zoo", None, "New York", "NY", 10024),
+        "Metropolitan Museum of Art": Address("1000 5th Ave", None, "New York", "NY", "10028"),
+        "Madison Square Garden": Address("4 Pennsylvania Plaza", None, "New York", "NY", "10001"),
+        "Empire State Building": Address("350 5th Ave", None, "New York", "NY", "10118"),
+        "Grand Central Terminal": Address("Grand Central Terminal", None, "New York", "NY", "10017"),
+        "Battery Park": Address("Battery Park", None, "New York", "NY", "10004"),
+        "Central Park Zoo": Address("Central Park Zoo", None, "New York", "NY", "10024"),
     }
 
     # Build the stops dictionary

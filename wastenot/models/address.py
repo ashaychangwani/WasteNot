@@ -125,7 +125,9 @@ class State(Enum):
         :param state: State to check
         :return: True if valid, False otherwise
         """
-        return (state.upper() in State.__members__) or (state.upper() in State.__members__.values())
+        return (state.upper() in State.__members__) or (
+            state.upper() in State.__members__.values()
+        )
 
     @staticmethod
     def set_enum(state: str) -> "State":
